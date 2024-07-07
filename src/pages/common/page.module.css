@@ -1,0 +1,168 @@
+.layout {
+  margin-top: 3rem;
+  display: grid;
+  column-gap: 3rem;
+  row-gap: 1rem;
+}
+
+.layout ol {
+  list-style: none;
+  padding: 0;
+}
+
+.layout ol li {
+  counter-increment: cupcake;
+  margin-bottom: 1rem;
+  color: var(--color, var(--cod-40));
+  transition: color 0.2s ease-in-out;
+}
+
+.layout ol li:before {
+  content: counter(cupcake);
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--color, var(--cod-40));
+  color: var(--white);
+  text-align: center;
+  line-height: 1.5rem;
+  margin-right: 1rem;
+}
+
+.active {
+  --color: var(--cod-gray);
+}
+.completed {
+  --color: var(--chateau-green);
+}
+
+@media screen and (min-width: 768px) {
+  .layout {
+    grid-template-columns: auto auto 1fr;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .layout {
+    grid-template-columns: 1fr 1fr minmax(auto, 40rem) 1fr;
+  }
+}
+
+.form {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+/* .form input:not([type="checkbox"]),
+.form select,
+.form textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--cod-40);
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  background-color: var(--white);
+  transition: border-color 0.2s ease-in-out;
+  appearance: none;
+} */
+
+.form select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevron-down'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.5rem;
+}
+.form > button:last-of-type,
+.table button:last-of-type {
+  margin-top: 1rem;
+  min-width: 50%;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.form .formGroup input {
+  margin-bottom: 0.25rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.table tbody td,
+.table tbody th {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--cod-40);
+}
+
+.table tbody th {
+  text-align: left;
+  min-width: 180px;
+}
+
+.AlertDialogOverlay {
+  background-color: var(--cod-20);
+  position: fixed;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.AlertDialogContent {
+  background-color: white;
+  border-radius: 6px;
+  box-shadow:
+    hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 500px;
+  max-height: 85vh;
+  padding: 25px;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: auto;
+}
+.AlertDialogContent:focus {
+  outline: none;
+}
+
+.AlertDialogTitle {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.AlertDialogDescription {
+  margin-bottom: 20px;
+  color: var(--cod-60);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

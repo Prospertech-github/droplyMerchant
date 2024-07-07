@@ -1,0 +1,44 @@
+import React from "react";
+import Dropdown from "@/components/ui/Dropdown";
+import Icon from "@/components/ui/Icon";
+import { Menu } from "@headlessui/react";
+const actions = [
+  {
+    name: "Last 28 Days",
+  },
+  {
+    name: " Last Month ",
+  },
+  {
+    name: "  Last Year ",
+  },
+];
+const SelectMonth = () => {
+  return (
+    <>
+      <Dropdown
+        classMenuItems=" w-[140px]"
+        label={
+          <span className="text-lg inline-flex items-center justify-center border py-1 px-2 border-slate-200 dark:border-slate-700 rounded dark:text-slate-400">
+            Filter <Icon icon="heroicons-outline:dots-vertical" />
+          </span>
+        }>
+        <div>
+          {actions.map((item, i) => (
+            <Menu.Item key={i}>
+              <div
+                className="`
+                
+                  hover:bg-secondary-500 dark:hover:bg-slate-600 dark:bg-opacity-60 hover:text-white text-slate-900 dark:text-slate-300
+                   w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center `">
+                <span>{item.name}</span>
+              </div>
+            </Menu.Item>
+          ))}
+        </div>
+      </Dropdown>
+    </>
+  );
+};
+
+export default SelectMonth;

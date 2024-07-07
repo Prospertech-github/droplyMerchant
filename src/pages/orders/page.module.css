@@ -1,0 +1,124 @@
+:root {
+  --desert-storm: #f7f7f5;
+  --white: #ffffff;
+  --cararra: #f3f2ef;
+  --mercury: #e1e1e1;
+  --kangaroo: #cbcbbe;
+  --cod-gray: #1a1a1a;
+  --chateau-green: #43a45e;
+  --cod-60: rgba(26, 26, 26, 0.6);
+  --cod-40: rgba(26, 26, 26, 0.4);
+  --cod-20: rgba(26, 26, 26, 0.2);
+  --cod-10: rgba(26, 26, 26, 0.1);
+  --cod-5: rgba(26, 26, 26, 0.05);
+  --green: #377b36;
+  --hint-of-green: #defee0;
+  --gold: #d78e00;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.top h2 {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.addresses {
+  padding: 21px 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(auto, 216px));
+  column-gap: 100px;
+  border: 1px solid var(--cod-20);
+  border-radius: 4px;
+  margin-block: 20px;
+}
+
+.ship h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.addresses h3 {
+  font-size: 1rem;
+}
+.addresses :not(h3) {
+  font-size: 0.875rem;
+  display: block;
+}
+
+.ship {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(auto, 438px));
+  gap: 24px;
+}
+
+.ship ul {
+  list-style: none;
+  margin: 0;
+  border: 1px solid var(--cod-20);
+  border-radius: 4px;
+  padding: 21px 32px;
+  margin-block: 20px;
+}
+
+.ship li {
+  padding-bottom: 33px;
+  padding-left: 26px;
+  color: var(--order-color, var(--cod-60));
+  position: relative;
+}
+
+.ship li:not(:last-child) {
+  border-left: 2px solid var(--cod-20);
+}
+
+.ship li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  background: currentColor;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.ship li.current {
+  --order-color: var(--cod-gray) !important;
+}
+
+.ship li.passed::before {
+  content: "\2713";
+  color: white;
+  background-color: var(--chateau-green);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ship li.passed {
+  --order-color: var(--chateau-green) !important;
+  /* --order-color: red; */
+}
+
+.list {
+  dt {
+    display: inline;
+    &::after {
+      content: ": ";
+    }
+  }
+  dd {
+    display: inline;
+    &::after {
+      content: "\a";
+      white-space: pre-wrap;
+    }
+  }
+}
