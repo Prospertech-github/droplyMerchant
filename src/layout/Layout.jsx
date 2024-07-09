@@ -38,9 +38,11 @@ const Layout = () => {
   if (isLoading) {
     return <Loading />;
   }
-  if (!data?.org_data) {
+
+  if (!data?.org_) {
     return <Navigate to="/complete-signup" replace />;
   }
+
   return (
     <>
       <Header className={width > breakpoints.xl ? switchHeaderClass() : ""} />
@@ -57,12 +59,21 @@ const Layout = () => {
       {width < breakpoints.xl && mobileMenu && (
         <div
           className="overlay bg-slate-900/50 backdrop-filter backdrop-blur-sm opacity-100 fixed inset-0 z-[999]"
-          onClick={() => setMobileMenu(false)}></div>
+          onClick={() => setMobileMenu(false)}
+        ></div>
       )}
-      <div className={`content-wrapper transition-all duration-150 ${width > 1280 ? switchHeaderClass() : ""}`}>
+      <div
+        className={`content-wrapper transition-all duration-150 ${
+          width > 1280 ? switchHeaderClass() : ""
+        }`}
+      >
         {/* md:min-h-screen will h-full*/}
         <div className="page-content page-min-height">
-          <div className={contentWidth === "boxed" ? "container mx-auto" : "container-fluid"}>
+          <div
+            className={
+              contentWidth === "boxed" ? "container mx-auto" : "container-fluid"
+            }
+          >
             <Suspense fallback={<Loading />}>
               <motion.div
                 // key={location.pathname}
@@ -87,7 +98,8 @@ const Layout = () => {
                   type: "tween",
                   ease: "easeInOut",
                   duration: 0.5,
-                }}>
+                }}
+              >
                 <Breadcrumbs />
                 {<Outlet />}
               </motion.div>

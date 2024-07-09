@@ -73,6 +73,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "@tanstack/react-query-devtools": "^5.50.1",
     "@types/cleave.js": "^1.4.8",
     "@types/hoist-non-react-statics": "^3.3.3",
     "@types/react": "^18.0.24",

@@ -28,7 +28,11 @@ const LoginForm = () => {
   };
 
   return (
-    <Formik initialValues={initialValues} validationSchema={schema} onSubmit={onSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={schema}
+      onSubmit={onSubmit}
+    >
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit} className="space-y-4 ">
           <FormInput
@@ -39,7 +43,7 @@ const LoginForm = () => {
             error={login.error?.response?.data?.email}
           />
           <FormInput
-            defaultValue=""
+            // defaultValue=""
             name="password"
             label="password"
             type="password"
@@ -47,7 +51,10 @@ const LoginForm = () => {
             error={login.error?.response?.data?.password}
           />
           <div className="flex justify-end">
-            <Link to="/forgot-password" className="text-sm text-slate-800 dark:text-slate-400 leading-6 font-medium">
+            <Link
+              to="/forgot-password"
+              className="text-sm text-slate-800 dark:text-slate-400 leading-6 font-medium"
+            >
               Forgot Password?{" "}
             </Link>
           </div>

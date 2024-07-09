@@ -37,7 +37,18 @@ type SelectProps = HTMLProps<HTMLSelectElement> & {
 };
 
 export default function FormInput(props: FormInputProps) {
-  const { name, label, id, placeholder, className, error, type, labelClass, description, ...rest } = props;
+  const {
+    name,
+    label,
+    id,
+    placeholder,
+    className,
+    error,
+    type,
+    labelClass,
+    description,
+    ...rest
+  } = props;
 
   const [_type, setType] = useState(type);
   const togglePassword = () => {
@@ -49,10 +60,17 @@ export default function FormInput(props: FormInputProps) {
       {({ field, meta }: FieldProps) => {
         return (
           <div className="fromGroup formGroup">
-            <label htmlFor={id} className={`flex items-center gap-2 capitalize form-label ${labelClass}`}>
+            <label
+              htmlFor={id}
+              className={`flex items-center gap-2 capitalize form-label ${labelClass}`}
+            >
               {label}{" "}
               {description ? (
-                <Tooltip title="Description" content={description} className="text-primary-500">
+                <Tooltip
+                  title="Description"
+                  content={description}
+                  className="text-primary-500"
+                >
                   <button type="button">
                     <Icon icon="heroicons-outline:information-circle" />
                   </button>
@@ -75,24 +93,39 @@ export default function FormInput(props: FormInputProps) {
               {/* icon */}
               <div className="flex text-xl absolute ltr:right-[14px] rtl:left-[14px] top-1/2 -translate-y-1/2  space-x-1 rtl:space-x-reverse">
                 {type === "password" && (
-                  <button type="button" className="cursor-pointer text-secondary-500" onClick={togglePassword}>
+                  <button
+                    type="button"
+                    className="cursor-pointer text-secondary-500"
+                    onClick={togglePassword}
+                  >
                     {/* @ts-ignore */}
-                    <Icon icon={_type === "password" ? "heroicons-outline:eye" : "heroicons-outline:eye-off"} />
+                    <Icon
+                      icon={
+                        _type === "password"
+                          ? "heroicons-outline:eye"
+                          : "heroicons-outline:eye-off"
+                      }
+                    />
                   </button>
                 )}
 
-                {(error || (meta.touched && meta.error)) && type !== "password" && (
-                  <span className="text-danger-500">
-                    {/* @ts-ignore */}
-                    <Icon icon="heroicons-outline:information-circle" />
-                  </span>
-                )}
+                {(error || (meta.touched && meta.error)) &&
+                  type !== "password" && (
+                    <span className="text-danger-500">
+                      {/* @ts-ignore */}
+                      <Icon icon="heroicons-outline:information-circle" />
+                    </span>
+                  )}
               </div>
             </div>
             <ErrorMessage name={name}>
-              {(msg) => <div className="mt-2 text-danger-500 block text-sm">{msg}</div>}
+              {(msg) => (
+                <div className="mt-2 text-danger-500 block text-sm">{msg}</div>
+              )}
             </ErrorMessage>
-            {!!error && <div className="mt-2 text-danger-500 block text-sm">{error}</div>}
+            {!!error && (
+              <div className="mt-2 text-danger-500 block text-sm">{error}</div>
+            )}
           </div>
         );
       }}
@@ -100,18 +133,38 @@ export default function FormInput(props: FormInputProps) {
   );
 }
 
-export function FormattedNumberInput(props: FormInputProps & { prefix?: string }) {
-  const { name, label, id, placeholder, className, error, type, labelClass, description, ...rest } = props;
+export function FormattedNumberInput(
+  props: FormInputProps & { prefix?: string }
+) {
+  const {
+    name,
+    label,
+    id,
+    placeholder,
+    className,
+    error,
+    type,
+    labelClass,
+    description,
+    ...rest
+  } = props;
 
   return (
     <Field name={name}>
       {({ field, meta }: FieldProps) => {
         return (
           <div className="fromGroup formGroup">
-            <label htmlFor={id} className={`flex items-center gap-2 capitalize form-label ${labelClass}`}>
+            <label
+              htmlFor={id}
+              className={`flex items-center gap-2 capitalize form-label ${labelClass}`}
+            >
               {label}
               {description ? (
-                <Tooltip title="Description" content={description} className="text-primary-500">
+                <Tooltip
+                  title="Description"
+                  content={description}
+                  className="text-primary-500"
+                >
                   <button type="button">
                     <Icon icon="heroicons-outline:information-circle" />
                   </button>
@@ -152,9 +205,13 @@ export function FormattedNumberInput(props: FormInputProps & { prefix?: string }
               </div>
             </div>
             <ErrorMessage name={name}>
-              {(msg) => <div className="mt-2 text-danger-500 block text-sm">{msg}</div>}
+              {(msg) => (
+                <div className="mt-2 text-danger-500 block text-sm">{msg}</div>
+              )}
             </ErrorMessage>
-            {!!error && <div className="mt-2 text-danger-500 block text-sm">{error}</div>}
+            {!!error && (
+              <div className="mt-2 text-danger-500 block text-sm">{error}</div>
+            )}
           </div>
         );
       }}
@@ -163,17 +220,34 @@ export function FormattedNumberInput(props: FormInputProps & { prefix?: string }
 }
 
 export function FormPhoneInput(props: FormInputProps) {
-  const { name, label, id, placeholder, className, error, labelClass, description, ...rest } = props;
+  const {
+    name,
+    label,
+    id,
+    placeholder,
+    className,
+    error,
+    labelClass,
+    description,
+    ...rest
+  } = props;
 
   return (
     <Field name={name}>
       {({ field, form, meta }: FieldProps) => {
         return (
           <div className="fromGroup formGroup">
-            <label htmlFor={id} className={`flex items-center gap-2 capitalize form-label ${labelClass}`}>
+            <label
+              htmlFor={id}
+              className={`flex items-center gap-2 capitalize form-label ${labelClass}`}
+            >
               {label}{" "}
               {description ? (
-                <Tooltip title="Description" content={description} className="text-primary-500">
+                <Tooltip
+                  title="Description"
+                  content={description}
+                  className="text-primary-500"
+                >
                   <button type="button">
                     <Icon icon="heroicons-outline:information-circle" />
                   </button>
@@ -213,9 +287,13 @@ export function FormPhoneInput(props: FormInputProps) {
               </div>
             </div>
             <ErrorMessage name={name}>
-              {(msg) => <div className="mt-2 text-danger-500 block text-sm">{msg}</div>}
+              {(msg) => (
+                <div className="mt-2 text-danger-500 block text-sm">{msg}</div>
+              )}
             </ErrorMessage>
-            {!!error && <div className="mt-2 text-danger-500 block text-sm">{error}</div>}
+            {!!error && (
+              <div className="mt-2 text-danger-500 block text-sm">{error}</div>
+            )}
           </div>
         );
       }}
@@ -223,6 +301,7 @@ export function FormPhoneInput(props: FormInputProps) {
   );
 }
 
+//? Refactor: make it a file upload not base64 in all places it is being used
 export function FormFileField(
   props: FormInputProps & {
     preview?: boolean;
@@ -250,6 +329,8 @@ export function FormFileField(
                 {...field}
                 onChange={(e) => {
                   const file = e.currentTarget.files?.[0];
+                  console.log(file);
+
                   if (!file) return;
                   const reader = new FileReader();
                   reader.readAsDataURL(file);
@@ -258,6 +339,7 @@ export function FormFileField(
                     form.setFieldTouched(field.name, true);
                     form.setFieldError(field.name, undefined);
                     form.setFieldValue(`${field.name}_name`, file.name);
+                    form.setFieldValue(`${field.name}_file`, file);
                   };
                 }}
                 value={undefined}
@@ -268,10 +350,14 @@ export function FormFileField(
                 required={props.required && !field.value}
                 className="sr-only"
               />
-              <div className={`w-full h-[40px] file-control flex items-center ${className}`}>
+              <div
+                className={`w-full h-[40px] file-control flex items-center ${className}`}
+              >
                 <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
                   {field.value ? (
-                    <span className="text-slate-900 dark:text-white">{nameField.value || "File Selected"}</span>
+                    <span className="text-slate-900 dark:text-white">
+                      {nameField.value || "File Selected"}
+                    </span>
                   ) : (
                     <span className="text-slate-400">{placeholder}</span>
                   )}
@@ -281,7 +367,11 @@ export function FormFileField(
                   {label}
                 </span>
               </div>
-              {description ? <p className="text-xs text-slate-600 dark:text-slate-200">{description}</p> : null}
+              {description ? (
+                <p className="text-xs text-slate-600 dark:text-slate-200">
+                  {description}
+                </p>
+              ) : null}
               {preview && field.value && (
                 <div className="w-[150px] h-[150px] mx-auto mt-6  ">
                   <img
@@ -294,9 +384,13 @@ export function FormFileField(
             </label>
           </div>
           <ErrorMessage name={field.name}>
-            {(msg) => <div className="mt-2 text-danger-500 block text-sm">{msg}</div>}
+            {(msg) => (
+              <div className="mt-2 text-danger-500 block text-sm">{msg}</div>
+            )}
           </ErrorMessage>
-          {!!error && <div className="mt-2 text-danger-500 block text-sm">{error}</div>}
+          {!!error && (
+            <div className="mt-2 text-danger-500 block text-sm">{error}</div>
+          )}
         </div>
       )}
     </Field>
@@ -304,14 +398,27 @@ export function FormFileField(
 }
 
 export function FormTextArea(props: TextAreaProps) {
-  const { name, label, id, placeholder, className, error, labelClass, rows = 4, ...rest } = props;
+  const {
+    name,
+    label,
+    id,
+    placeholder,
+    className,
+    error,
+    labelClass,
+    rows = 4,
+    ...rest
+  } = props;
 
   return (
     <Field name={name}>
       {({ field, meta }: FieldProps) => {
         return (
           <div className="fromGroup formGroup">
-            <label htmlFor={id} className={`block capitalize form-label ${labelClass}`}>
+            <label
+              htmlFor={id}
+              className={`block capitalize form-label ${labelClass}`}
+            >
               {label}
             </label>
             <div className="relative">
@@ -328,9 +435,13 @@ export function FormTextArea(props: TextAreaProps) {
               }
             </div>
             <ErrorMessage name={name}>
-              {(msg) => <div className="mt-2 text-danger-500 block text-sm">{msg}</div>}
+              {(msg) => (
+                <div className="mt-2 text-danger-500 block text-sm">{msg}</div>
+              )}
             </ErrorMessage>
-            {!!error && <div className="mt-2 text-danger-500 block text-sm">{error}</div>}
+            {!!error && (
+              <div className="mt-2 text-danger-500 block text-sm">{error}</div>
+            )}
           </div>
         );
       }}
@@ -339,17 +450,36 @@ export function FormTextArea(props: TextAreaProps) {
 }
 
 export function FormSelect(props: SelectProps) {
-  const { name, label, id, placeholder, className, error, labelClass, options, description, ...rest } = props;
+  const {
+    name,
+    label,
+    id,
+    placeholder,
+    className,
+    error,
+    labelClass,
+    options,
+    description,
+    ...rest
+  } = props;
 
   return (
     <Field name={name}>
       {({ field, meta }: FieldProps) => {
         return (
           <div className="fromGroup formGroup">
-            <label htmlFor={id} className={`flex items-center gap-2 capitalize form-label ${labelClass}`}>
+            <label
+              htmlFor={id}
+              className={`flex items-center gap-2 capitalize form-label ${labelClass}`}
+            >
               {label}{" "}
               {description ? (
-                <Tooltip title="Description" allowHTML content={description} className="text-primary-500">
+                <Tooltip
+                  title="Description"
+                  allowHTML
+                  content={description}
+                  className="text-primary-500"
+                >
                   <button type="button">
                     <Icon icon="heroicons-outline:information-circle" />
                   </button>
@@ -364,10 +494,15 @@ export function FormSelect(props: SelectProps) {
                     error || (meta.touched && meta.error) ? " has-error" : " "
                   } form-control py-2 ${className}`}
                   id={id}
-                  {...field}>
+                  {...field}
+                >
                   <option value="">{placeholder}</option>
                   {options.map((option) => (
-                    <option key={option.value} disabled={option.disabled} value={option.value}>
+                    <option
+                      key={option.value}
+                      disabled={option.disabled}
+                      value={option.value}
+                    >
                       {option.label}
                     </option>
                   ))}
@@ -375,9 +510,13 @@ export function FormSelect(props: SelectProps) {
               }
             </div>
             <ErrorMessage name={name}>
-              {(msg) => <div className="mt-2 text-danger-500 block text-sm">{msg}</div>}
+              {(msg) => (
+                <div className="mt-2 text-danger-500 block text-sm">{msg}</div>
+              )}
             </ErrorMessage>
-            {!!error && <div className="mt-2 text-danger-500 block text-sm">{error}</div>}
+            {!!error && (
+              <div className="mt-2 text-danger-500 block text-sm">{error}</div>
+            )}
           </div>
         );
       }}
