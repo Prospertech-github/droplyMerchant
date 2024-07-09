@@ -19,7 +19,12 @@ export default function OrderDetailsPage() {
   }
   if (isError) {
     // @ts-ignore
-    return <div>{error?.response?.data.message || "We could not load the details of this order"}</div>;
+    return (
+      <div>
+        {error?.response?.data.message ||
+          "We could not load the details of this order"}
+      </div>
+    );
   }
 
   return (
@@ -29,7 +34,7 @@ export default function OrderDetailsPage() {
           <dl className={styles.list}>
             <div>
               <dt>Order ID</dt>
-              <dd>{data?.id}</dd>
+              <dd>{data?.booking_id}</dd>
             </div>
             <div>
               <dt>Order Status</dt>
@@ -72,7 +77,7 @@ export default function OrderDetailsPage() {
           </dl>
         </Card>
         <Card title="Rider Details">
-          <dl className={styles.list}>
+          {/* <dl className={styles.list}>
             <div>
               <dt>Name</dt>
               <dd>{data?.rider_info?.user.first_name + " " + data?.rider_info?.user.last_name}</dd>
@@ -85,7 +90,7 @@ export default function OrderDetailsPage() {
               <dt>Email</dt>
               <dd>{data?.rider_info?.user.email}</dd>
             </div>
-          </dl>
+          </dl> */}
         </Card>
         <Card title="Receiver Details">
           <dl className={styles.list}>
@@ -110,20 +115,27 @@ export default function OrderDetailsPage() {
             <li className="relative mb-6 sm:mb-0">
               <div className="flex items-center">
                 <div className="z-10 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
-                  <Icon icon="bx:bx-check" className="w-4 h-4 text-success-500" />
+                  <Icon
+                    icon="bx:bx-check"
+                    className="w-4 h-4 text-success-500"
+                  />
                 </div>
                 <div className="hidden sm:flex w-full bg-success-500 h-0.5"></div>
               </div>
               <div className="mt-3 sm:pr-8">
                 <h3
                   className={`text-lg font-semibold ${
-                    data.created_at ? "text-success-500" : "text-gray-900 dark:text-white"
-                  }`}>
+                    data.created_at
+                      ? "text-success-500"
+                      : "text-gray-900 dark:text-white"
+                  }`}
+                >
                   Order Placed
                 </h3>
                 <time
                   dateTime={data.created_at}
-                  className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                  className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+                >
                   Placed on {new Date(data.created_at).toDateString()}
                 </time>
               </div>
@@ -131,23 +143,35 @@ export default function OrderDetailsPage() {
             <li className="relative mb-6 sm:mb-0">
               <div className="flex items-center">
                 <div className="z-10 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
-                  {data.confirmed_at ? <Icon icon="bx:bx-check" className="w-4 h-4 text-success-500" /> : null}
+                  {data.confirmed_at ? (
+                    <Icon
+                      icon="bx:bx-check"
+                      className="w-4 h-4 text-success-500"
+                    />
+                  ) : null}
                 </div>
                 <div
                   className={`hidden sm:flex w-full h-0.5 ${
-                    data.confirmed_at ? "bg-success-500" : "bg-gray-200 dark:bg-gray-700"
-                  }`}></div>
+                    data.confirmed_at
+                      ? "bg-success-500"
+                      : "bg-gray-200 dark:bg-gray-700"
+                  }`}
+                ></div>
               </div>
               <div className="mt-3 sm:pr-8">
                 <h3
                   className={`text-lg font-semibold ${
-                    data.confirmed_at ? "text-success-500" : "text-gray-900 dark:text-white"
-                  }`}>
+                    data.confirmed_at
+                      ? "text-success-500"
+                      : "text-gray-900 dark:text-white"
+                  }`}
+                >
                   Order Confirmed
                 </h3>
                 <time
                   dateTime={data.confirmed_at}
-                  className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                  className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+                >
                   Confirmed on {new Date(data.confirmed_at || 0).toDateString()}
                 </time>
               </div>
@@ -155,24 +179,36 @@ export default function OrderDetailsPage() {
             <li className="relative mb-6 sm:mb-0">
               <div className="flex items-center">
                 <div className="z-10 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
-                  {data.picked_at ? <Icon icon="bx:bx-check" className="w-4 h-4 text-success-500" /> : null}
+                  {data.picked_at ? (
+                    <Icon
+                      icon="bx:bx-check"
+                      className="w-4 h-4 text-success-500"
+                    />
+                  ) : null}
                 </div>
                 <div
                   className={`hidden sm:flex w-full h-0.5 ${
-                    data.picked_at ? "bg-success-500" : "bg-gray-200 dark:bg-gray-700"
-                  }`}></div>
+                    data.picked_at
+                      ? "bg-success-500"
+                      : "bg-gray-200 dark:bg-gray-700"
+                  }`}
+                ></div>
               </div>
               <div className="mt-3 sm:pr-8">
                 <h3
                   className={`text-lg font-semibold ${
-                    data.picked_at ? "text-success-500" : "text-gray-900 dark:text-white"
-                  }`}>
+                    data.picked_at
+                      ? "text-success-500"
+                      : "text-gray-900 dark:text-white"
+                  }`}
+                >
                   Item Picked
                 </h3>
                 {data.picked_at ? (
                   <time
                     dateTime={data.picked_at}
-                    className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                    className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+                  >
                     Picked on {new Date(data.picked_at).toDateString()}
                   </time>
                 ) : null}
@@ -181,24 +217,36 @@ export default function OrderDetailsPage() {
             <li className="relative mb-6 sm:mb-0">
               <div className="flex items-center">
                 <div className="z-10 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
-                  {data.in_transit_at ? <Icon icon="bx:bx-check" className="w-4 h-4 text-success-500" /> : null}
+                  {data.in_transit_at ? (
+                    <Icon
+                      icon="bx:bx-check"
+                      className="w-4 h-4 text-success-500"
+                    />
+                  ) : null}
                 </div>
                 <div
                   className={`hidden sm:flex w-full h-0.5 ${
-                    data.in_transit_at ? "bg-success-500" : "bg-gray-200 dark:bg-gray-700"
-                  }`}></div>
+                    data.in_transit_at
+                      ? "bg-success-500"
+                      : "bg-gray-200 dark:bg-gray-700"
+                  }`}
+                ></div>
               </div>
               <div className="mt-3 sm:pr-8">
                 <h3
                   className={`text-lg font-semibold ${
-                    data.in_transit_at ? "text-success-500" : "text-gray-900 dark:text-white"
-                  }`}>
+                    data.in_transit_at
+                      ? "text-success-500"
+                      : "text-gray-900 dark:text-white"
+                  }`}
+                >
                   In transit
                 </h3>
                 {data.in_transit_at ? (
                   <time
                     dateTime={data.in_transit_at}
-                    className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                    className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+                  >
                     In transit on {new Date(data.in_transit_at).toDateString()}
                   </time>
                 ) : null}
@@ -207,20 +255,29 @@ export default function OrderDetailsPage() {
             <li className="relative mb-6 sm:mb-0">
               <div className="flex items-center">
                 <div className="z-10 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
-                  {data.completed_at ? <Icon icon="bx:bx-check" className="w-4 h-4 text-success-500" /> : null}
+                  {data.completed_at ? (
+                    <Icon
+                      icon="bx:bx-check"
+                      className="w-4 h-4 text-success-500"
+                    />
+                  ) : null}
                 </div>
               </div>
               <div className="mt-3 sm:pr-8">
                 <h3
                   className={`text-lg font-semibold ${
-                    data.completed_at ? "text-success-500" : "text-gray-900 dark:text-white"
-                  }`}>
+                    data.completed_at
+                      ? "text-success-500"
+                      : "text-gray-900 dark:text-white"
+                  }`}
+                >
                   Delivered
                 </h3>
                 {data.completed_at ? (
                   <time
                     dateTime={data.completed_at}
-                    className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                    className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+                  >
                     Delivered on {new Date(data.completed_at).toDateString()}
                   </time>
                 ) : null}
