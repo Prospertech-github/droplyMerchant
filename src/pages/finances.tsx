@@ -15,16 +15,16 @@ const validationSchema = object({
 export default function Finances() {
   const updateOrg = useUpdateOrg();
   const {
-    data: { org_data },
+    data: { org_ },
   } = useLoggedInUser();
 
   return (
     <Formik
       initialValues={{
-        price_per_km: org_data.price_per_km,
-        additional_km: org_data.additional_km,
-        commission: org_data.commission,
-        id: org_data.id,
+        price_per_km: org_.price_per_km,
+        additional_km: org_.additional_km,
+        commission: org_.commission,
+        id: org_.id,
       }}
       validationSchema={validationSchema}
       onSubmit={async (values) => {
@@ -32,13 +32,22 @@ export default function Finances() {
           await updateOrg.mutateAsync(values);
           toast.success("Organization updated successfully");
         } catch (error: any) {
-          if (error.response?.data?.message || error.response?.data?.error || error.response?.data?.detail) {
-            toast.error(error.response?.data?.message || error.response?.data?.error || error.response?.data?.detail);
+          if (
+            error.response?.data?.message ||
+            error.response?.data?.error ||
+            error.response?.data?.detail
+          ) {
+            toast.error(
+              error.response?.data?.message ||
+                error.response?.data?.error ||
+                error.response?.data?.detail
+            );
           } else {
             toast.error("Something went wrong, try again");
           }
         }
-      }}>
+      }}
+    >
       {({ handleSubmit, dirty }) => (
         <form onSubmit={handleSubmit} className="space-y-4">
           <FormattedNumberInput
@@ -67,7 +76,8 @@ export default function Finances() {
               loadingText="Updating..."
               disabled={!dirty || updateOrg.isLoading}
               type="submit"
-              className="btn btn-dark">
+              className="btn btn-dark"
+            >
               Update
             </Button>
           </div>

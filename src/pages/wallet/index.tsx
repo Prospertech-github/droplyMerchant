@@ -3,7 +3,11 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Modal from "@/components/ui/Modal";
 import { useLoggedInUser } from "@/data/auth";
-import { useWalletBalance, useWalletDashboard, useWalletHistory } from "@/data/wallet";
+import {
+  useWalletBalance,
+  useWalletDashboard,
+  useWalletHistory,
+} from "@/data/wallet";
 import { useUpdateOrg } from "@/mutations/auth/profile";
 import { useCreateWithdrawal } from "@/mutations/withdrawals";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -49,16 +53,20 @@ export default function WalletPage() {
                 })}
               </p>
             )
-          }>
+          }
+        >
           <button
             onClick={() => {
               if ((walletBalance.data?.balance || 0) < 2_000) {
-                toast.error("You can only withdraw when your balance is at least ₦2,000");
+                toast.error(
+                  "You can only withdraw when your balance is at least ₦2,000"
+                );
                 return;
               }
               setIsWithdrawOpen(true);
             }}
-            className="btn-dark btn flex items-center gap-2">
+            className="btn-dark btn flex items-center gap-2"
+          >
             Withdraw <Icon icon="akar-icons:arrow-right" />
           </button>
         </Card>
@@ -70,27 +78,36 @@ export default function WalletPage() {
               <p>Loading...</p>
             ) : (
               <p>
-                {(walletDashboard.data?.credits.all_time_credit || 0).toLocaleString(undefined, {
+                {(
+                  walletDashboard.data?.credits.all_time_credit || 0
+                ).toLocaleString(undefined, {
                   style: "currency",
                   currency: "NGN",
                   currencyDisplay: "narrowSymbol",
                 })}
               </p>
             )
-          }>
+          }
+        >
           {walletDashboard.data ? (
             <div className="flex flex-col rtl:space-x-reverse">
-              <span className={clsx("inline-flex items-center gap-2 text-success-700 dark:text-success-300")}>
+              <span
+                className={clsx(
+                  "inline-flex items-center gap-2 text-success-700 dark:text-success-300"
+                )}
+              >
                 <Icon
                   icon={
-                    walletDashboard.data.credits.this_month_credit < walletDashboard.data.credits.last_month_credit
+                    walletDashboard.data.credits.this_month_credit <
+                    walletDashboard.data.credits.last_month_credit
                       ? "heroicons:arrow-trending-down"
                       : "heroicons:arrow-trending-up"
                   }
                 />{" "}
                 <span className="text-sm">
                   {Math.abs(
-                    (walletDashboard.data.credits.this_month_credit - walletDashboard.data.credits.last_month_credit) /
+                    (walletDashboard.data.credits.this_month_credit -
+                      walletDashboard.data.credits.last_month_credit) /
                       walletDashboard.data.credits.last_month_credit
                   ).toLocaleString(undefined, {
                     style: "percent",
@@ -102,13 +119,18 @@ export default function WalletPage() {
               </span>
               <div className="text-sm">
                 <span className={`mb-[2px]`}>
-                  {walletDashboard.data?.credits.this_month_credit.toLocaleString(undefined, {
-                    style: "currency",
-                    currency: "NGN",
-                    currencyDisplay: "narrowSymbol",
-                  })}{" "}
+                  {walletDashboard.data?.credits.this_month_credit.toLocaleString(
+                    undefined,
+                    {
+                      style: "currency",
+                      currency: "NGN",
+                      currencyDisplay: "narrowSymbol",
+                    }
+                  )}{" "}
                 </span>
-                <span className=" text-slate-600 dark:text-slate-300">this month</span>
+                <span className=" text-slate-600 dark:text-slate-300">
+                  this month
+                </span>
               </div>
             </div>
           ) : null}
@@ -121,17 +143,24 @@ export default function WalletPage() {
               <p>Loading...</p>
             ) : (
               <p>
-                {(walletDashboard.data?.withdrawals.all_time_withdrawal || 0).toLocaleString(undefined, {
+                {(
+                  walletDashboard.data?.withdrawals.all_time_withdrawal || 0
+                ).toLocaleString(undefined, {
                   style: "currency",
                   currency: "NGN",
                   currencyDisplay: "narrowSymbol",
                 })}
               </p>
             )
-          }>
+          }
+        >
           {walletDashboard.data ? (
             <div className="flex flex-col rtl:space-x-reverse">
-              <span className={clsx("inline-flex items-center gap-2 text-success-700 dark:text-success-300")}>
+              <span
+                className={clsx(
+                  "inline-flex items-center gap-2 text-success-700 dark:text-success-300"
+                )}
+              >
                 <Icon
                   icon={
                     walletDashboard.data.withdrawals.this_month_withdrawal <
@@ -144,7 +173,9 @@ export default function WalletPage() {
                   {Math.abs(
                     walletDashboard.data.withdrawals.this_month_withdrawal -
                       walletDashboard.data.withdrawals.last_month_withdrawal ||
-                      1 / walletDashboard.data.withdrawals.last_month_withdrawal ||
+                      1 /
+                        walletDashboard.data.withdrawals
+                          .last_month_withdrawal ||
                       1
                   ).toLocaleString(undefined, {
                     style: "percent",
@@ -156,13 +187,18 @@ export default function WalletPage() {
               </span>
               <div className="text-sm">
                 <span className={`mb-[2px]`}>
-                  {walletDashboard.data?.withdrawals.this_month_withdrawal.toLocaleString(undefined, {
-                    style: "currency",
-                    currency: "NGN",
-                    currencyDisplay: "narrowSymbol",
-                  })}{" "}
+                  {walletDashboard.data?.withdrawals.this_month_withdrawal.toLocaleString(
+                    undefined,
+                    {
+                      style: "currency",
+                      currency: "NGN",
+                      currencyDisplay: "narrowSymbol",
+                    }
+                  )}{" "}
                 </span>
-                <span className=" text-slate-600 dark:text-slate-300">this month</span>
+                <span className=" text-slate-600 dark:text-slate-300">
+                  this month
+                </span>
               </div>
             </div>
           ) : null}
@@ -172,16 +208,21 @@ export default function WalletPage() {
       <Card title="Wallet History" className="mt-4">
         <WalletHistory />
       </Card>
-      <Modal activeModal={isCommisionOpen} onClose={() => setIsCommisionOpen(false)} title="Edit commission" centered>
+      <Modal
+        activeModal={isCommisionOpen}
+        onClose={() => setIsCommisionOpen(false)}
+        title="Edit commission"
+        centered
+      >
         <Formik
           initialValues={{
-            commission: user.data?.org_data.commission || 0,
+            commission: user.data?.org_.commission || 0,
           }}
           onSubmit={(values) => {
             updateOrg
               .mutateAsync({
                 commission: values.commission,
-                id: user.data?.org_data.id,
+                id: user.data?.org_.id,
               })
               .then(() => {
                 setIsCommisionOpen(false);
@@ -190,17 +231,27 @@ export default function WalletPage() {
               .catch(() => {
                 toast.error("An error occured");
               });
-          }}>
+          }}
+        >
           {({ handleSubmit }) => (
             <form className="space-y-4" onSubmit={handleSubmit}>
-              <FormInput type="number" name="commission" label="Commission" step={0.01} max={100} min={0} required />
+              <FormInput
+                type="number"
+                name="commission"
+                label="Commission"
+                step={0.01}
+                max={100}
+                min={0}
+                required
+              />
               <div className="flex justify-end">
                 <Button
                   isLoading={updateOrg.isLoading}
                   disabled={updateOrg.isLoading}
                   loadingText="Updating..."
                   type="submit"
-                  className="btn btn-dark btn-lg">
+                  className="btn btn-dark btn-lg"
+                >
                   Update
                 </Button>
               </div>
@@ -208,7 +259,12 @@ export default function WalletPage() {
           )}
         </Formik>
       </Modal>
-      <Modal activeModal={isWithdrawOpen} onClose={() => setIsWithdrawOpen(false)} title="Withdraw" centered>
+      <Modal
+        activeModal={isWithdrawOpen}
+        onClose={() => setIsWithdrawOpen(false)}
+        title="Withdraw"
+        centered
+      >
         <Formik
           initialValues={{
             amount: 0,
@@ -216,7 +272,10 @@ export default function WalletPage() {
           validationSchema={object({
             amount: number()
               .min(2000, "You can only withdraw a minimum of 2,000 Naira")
-              .max(walletBalance.data?.balance || 0, "You can not withdraw more than your wallet balance")
+              .max(
+                walletBalance.data?.balance || 0,
+                "You can not withdraw more than your wallet balance"
+              )
               .required("Amount is required"),
           }).required()}
           onSubmit={(values) => {
@@ -231,7 +290,8 @@ export default function WalletPage() {
               .catch(() => {
                 toast.error("An error occured");
               });
-          }}>
+          }}
+        >
           {({ handleSubmit }) => (
             <form className="space-y-4" onSubmit={handleSubmit}>
               <FormInput
@@ -249,7 +309,8 @@ export default function WalletPage() {
                   disabled={createWithdrawal.isLoading}
                   loadingText="Sending..."
                   type="submit"
-                  className="btn btn-dark btn-lg">
+                  className="btn btn-dark btn-lg"
+                >
                   Withdraw
                 </Button>
               </div>
@@ -281,7 +342,11 @@ const columns: ColumnDef<WHistory>[] = [
     enableGlobalFilter: true,
     cell(props) {
       return (
-        <span className={`text-sm font-medium ${props.getValue() === "debit" ? "text-red-500" : "text-green-500"}`}>
+        <span
+          className={`text-sm font-medium ${
+            props.getValue() === "debit" ? "text-red-500" : "text-green-500"
+          }`}
+        >
           {props.getValue() as any}
         </span>
       );
@@ -307,7 +372,11 @@ const columns: ColumnDef<WHistory>[] = [
     header: "Date Created",
     accessorKey: "created_at",
     cell(props) {
-      return <span className="text-sm font-medium">{new Date(props.getValue() as any).toLocaleString()}</span>;
+      return (
+        <span className="text-sm font-medium">
+          {new Date(props.getValue() as any).toLocaleString()}
+        </span>
+      );
     },
   },
   {
@@ -315,7 +384,11 @@ const columns: ColumnDef<WHistory>[] = [
     accessorKey: "status",
     cell(props) {
       return (
-        <span className={`text-sm font-medium ${props.getValue() === "failed" ? "text-red-500" : "text-green-500"}`}>
+        <span
+          className={`text-sm font-medium ${
+            props.getValue() === "failed" ? "text-red-500" : "text-green-500"
+          }`}
+        >
           {props.getValue() as any}
         </span>
       );
@@ -345,9 +418,18 @@ function WalletHistory() {
                   <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
                       <th key={header.id} scope="col" className=" table-th ">
-                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
                         {header.column.getIsSorted() ? (
-                          <span>{header.column.getIsSorted() === "desc" ? " 🔽" : " 🔼"}</span>
+                          <span>
+                            {header.column.getIsSorted() === "desc"
+                              ? " 🔽"
+                              : " 🔼"}
+                          </span>
                         ) : null}
                       </th>
                     ))}
@@ -359,7 +441,10 @@ function WalletHistory() {
                   <tr key={row.id}>
                     {row.getVisibleCells().map((cell) => (
                       <td className="table-td" key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
                       </td>
                     ))}
                   </tr>
@@ -372,14 +457,18 @@ function WalletHistory() {
       <div className="md:flex md:space-y-0 space-y-5 justify-between mt-6 items-center">
         <div className=" flex items-center space-x-3 rtl:space-x-reverse">
           <span className=" flex space-x-2  rtl:space-x-reverse items-center">
-            <span className=" text-sm font-medium text-slate-600 dark:text-slate-300">Go</span>
+            <span className=" text-sm font-medium text-slate-600 dark:text-slate-300">
+              Go
+            </span>
             <span>
               <input
                 type="number"
                 className=" form-control py-2"
                 defaultValue={tableInstance.getState().pagination.pageIndex + 1}
                 onChange={(e) => {
-                  const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
+                  const pageNumber = e.target.value
+                    ? Number(e.target.value) - 1
+                    : 0;
                   tableInstance.setPageIndex(pageNumber);
                 }}
                 style={{ width: "50px" }}
@@ -389,7 +478,8 @@ function WalletHistory() {
           <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
             Page{" "}
             <span>
-              {tableInstance.getState().pagination.pageIndex + 1} of {tableInstance.getPageCount()}
+              {tableInstance.getState().pagination.pageIndex + 1} of{" "}
+              {tableInstance.getPageCount()}
             </span>
           </span>
         </div>
