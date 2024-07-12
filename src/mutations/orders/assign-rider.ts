@@ -2,21 +2,28 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { axios } from "@/utils/api";
 
-async function addRider(rider: {
-  [key: string]: { [key: string]: string | File };
+async function assignRider({
+  order_id,
+  rider_id,
+}: {
+  order_id: string;
+  rider_id: string;
 }) {
-  const { data } = await axios.postForm("auth/rider/signup/", rider);
+  const { data } = await axios.post(
+    `orders/${order_id}/assign/${rider_id}/rider/`
+  );
   return data;
 }
 
-export function useAddRider() {
+export function useAssignRider() {
   const queryClient = useQueryClient();
-  return useMutation(addRider, {
+
+  return useMutation(assignRider, {
     onSettled() {
-      queryClient.invalidateQueries(["riders"]);
+      queryClient.invalidateQueries(["orders"]);
     },
     onSuccess() {
-      toast.success("Rider added successfully");
+      toast.success("Rider assigned successfully");
     },
     onError(error: any) {
       const possibleErrorMessage =

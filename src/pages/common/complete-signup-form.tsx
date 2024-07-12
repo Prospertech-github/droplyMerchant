@@ -41,31 +41,15 @@ export default function CompleteSignupForm() {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async (_values) => {
-        //? Refactor this later
-        const {
-          logo_file,
-          cac_doc_file,
-          name,
-          additional_km,
-          address,
-          commission,
-          description,
-          price_per_km,
-        } = _values as typeof _values & {
+        const values = _values as typeof _values & {
           logo_file: File;
           cac_doc_file: File;
         };
-
         try {
           await addOrg({
-            name,
-            additional_km,
-            address,
-            description,
-            price_per_km,
-            commission,
-            logo: logo_file,
-            cac_doc: cac_doc_file,
+            ..._values,
+            logo: values.logo_file,
+            cac_doc: values.cac_doc_file,
           });
           toast.success("Organization created successfully");
           navigate(`/dashboard`, { replace: true });

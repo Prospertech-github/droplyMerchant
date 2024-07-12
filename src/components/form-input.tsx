@@ -317,6 +317,8 @@ export function FormFileField(
     error,
     description,
   } = props;
+
+  const [base64Str, setBase64Str] = useState<string | null>(null);
   const [nameField] = useField(`${props.name}_name`);
   return (
     <Field name={props.name}>
@@ -335,11 +337,13 @@ export function FormFileField(
                   const reader = new FileReader();
                   reader.readAsDataURL(file);
                   reader.onload = () => {
-                    form.setFieldValue(field.name, reader.result);
+                    if (typeof reader.result === "string") {
+                      setBase64Str(reader.result);
+                    }
+                    form.setFieldValue(field.name, file);
                     form.setFieldTouched(field.name, true);
                     form.setFieldError(field.name, undefined);
                     form.setFieldValue(`${field.name}_name`, file.name);
-                    form.setFieldValue(`${field.name}_file`, file);
                   };
                 }}
                 value={undefined}
@@ -372,10 +376,10 @@ export function FormFileField(
                   {description}
                 </p>
               ) : null}
-              {preview && field.value && (
+              {preview && field.value && base64Str && (
                 <div className="w-[150px] h-[150px] mx-auto mt-6  ">
                   <img
-                    src={field.value}
+                    src={base64Str}
                     className="w-full  h-full block rounded object-contain border p-2  border-slate-200"
                     alt={nameField.value || "File Selected"}
                   />
