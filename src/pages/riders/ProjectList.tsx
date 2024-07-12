@@ -21,8 +21,10 @@ import { Link } from "react-router-dom";
 const columns: ColumnDef<Rider>[] = [
   {
     header: "Name",
-    accessorFn(rider) {
-      return `${rider.user.first_name} ${rider.user.last_name}`;
+    cell({ row }) {
+      return (
+        <p className="whitespace-nowrap">{`${row.original.user.first_name} ${row.original.user.last_name}`}</p>
+      );
     },
     enableColumnFilter: true,
     enableGlobalFilter: true,
@@ -65,8 +67,12 @@ const columns: ColumnDef<Rider>[] = [
             <button
               className="block w-fit"
               onClick={() => {
-                useTBERidersModalStore.setState({ rider: row.original, isOpen: true });
-              }}>
+                useTBERidersModalStore.setState({
+                  rider: row.original,
+                  isOpen: true,
+                });
+              }}
+            >
               <Icon icon="heroicons-outline:pencil" />
             </button>
           </Tooltip>
@@ -104,9 +110,16 @@ const ProjectList = ({ riders }: { riders: Rider[] }) => {
                         <th key={header.id} scope="col" className=" table-th ">
                           {header.isPlaceholder
                             ? null
-                            : flexRender(header.column.columnDef.header, header.getContext())}
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
                           {header.column.getIsSorted() ? (
-                            <span>{header.column.getIsSorted() === "desc" ? " 🔽" : " 🔼"}</span>
+                            <span>
+                              {header.column.getIsSorted() === "desc"
+                                ? " 🔽"
+                                : " 🔼"}
+                            </span>
                           ) : null}
                         </th>
                       ))}
@@ -118,7 +131,10 @@ const ProjectList = ({ riders }: { riders: Rider[] }) => {
                     <tr key={row.id}>
                       {row.getVisibleCells().map((cell) => (
                         <td className="table-td" key={cell.id}>
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
                         </td>
                       ))}
                     </tr>
@@ -131,14 +147,20 @@ const ProjectList = ({ riders }: { riders: Rider[] }) => {
         <div className="md:flex md:space-y-0 space-y-5 justify-between mt-6 items-center">
           <div className=" flex items-center space-x-3 rtl:space-x-reverse">
             <span className=" flex space-x-2  rtl:space-x-reverse items-center">
-              <span className=" text-sm font-medium text-slate-600 dark:text-slate-300">Go</span>
+              <span className=" text-sm font-medium text-slate-600 dark:text-slate-300">
+                Go
+              </span>
               <span>
                 <input
                   type="number"
                   className=" form-control py-2"
-                  defaultValue={tableInstance.getState().pagination.pageIndex + 1}
+                  defaultValue={
+                    tableInstance.getState().pagination.pageIndex + 1
+                  }
                   onChange={(e) => {
-                    const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
+                    const pageNumber = e.target.value
+                      ? Number(e.target.value) - 1
+                      : 0;
                     tableInstance.setPageIndex(pageNumber);
                   }}
                   style={{ width: "50px" }}
@@ -148,7 +170,8 @@ const ProjectList = ({ riders }: { riders: Rider[] }) => {
             <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
               Page{" "}
               <span>
-                {tableInstance.getState().pagination.pageIndex + 1} of {tableInstance.getPageCount()}
+                {tableInstance.getState().pagination.pageIndex + 1} of{" "}
+                {tableInstance.getPageCount()}
               </span>
             </span>
           </div>

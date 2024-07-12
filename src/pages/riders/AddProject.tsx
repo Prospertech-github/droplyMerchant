@@ -2,7 +2,12 @@ import Modal from "@/components/ui/Modal";
 import { string, object } from "yup";
 import { Formik } from "formik";
 import Button from "@/components/ui/Button";
-import FormInput, { FormPhoneInput, FormFileField, FormTextArea, FormSelect } from "@/components/form-input";
+import FormInput, {
+  FormPhoneInput,
+  FormFileField,
+  FormTextArea,
+  FormSelect,
+} from "@/components/form-input";
 import { useState } from "react";
 import { useAddRider } from "@/mutations/riders/add-rider";
 import { Tab } from "@headlessui/react";
@@ -12,24 +17,29 @@ import nigerianStates from "@/data/countries/states";
 import countries from "@/data/countries";
 
 const validationSchema = object({
-  first_name: string().trim().required("First Name is required"),
-  last_name: string().trim().required("Last Name is required"),
-  email: string().trim().email("Invalid Email").required("Email is required"),
-  phone: string().trim().required("Phone is required"),
-  password: string().trim().required("Password is required"),
+  user_profile: object({
+    first_name: string().trim().required("First Name is required"),
+    last_name: string().trim().required("Last Name is required"),
+    email: string().trim().email("Invalid Email").required("Email is required"),
+    phone: string().trim().required("Phone is required"),
+    password: string().trim().required("Password is required"),
+  }),
 }).required();
 
 const initialValues = {
-  first_name: "",
-  last_name: "",
-  email: "",
-  phone: "",
-  password: "",
+  user_profile: {
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    password: "",
+    account_type: "rider",
+  },
 };
 export default function AddProject() {
   const { state } = useLocation();
   const [isOpen, setIsOpen] = useState(!!state?.create);
-  const addRider = useAddRider();
+  const { mutateAsync: addRider, isLoading, error } = useAddRider();
   const [reached, setReached] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -53,60 +63,80 @@ export default function AddProject() {
         activeModal={isOpen}
         onClose={() => {
           setIsOpen(false);
-        }}>
+        }}
+      >
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(data, { resetForm }) => {
+          onSubmit={async (values, { resetForm }) => {
+            console.log(values);
+
             if (selectedIndex === 2) {
-              return addRider
-                .mutateAsync(data)
-                .then(() => {
-                  resetForm();
-                  setSelectedIndex(0);
-                  setIsOpen(false);
-                })
-                .catch(() => {
-                  setSelectedIndex(0);
-                });
+              try {
+                const response = await addRider(values);
+
+                resetForm();
+                setSelectedIndex(0);
+                setIsOpen(false);
+
+                return response;
+              } catch {
+                setSelectedIndex(0);
+                return;
+              }
             }
-            setReached((prev) => (prev > selectedIndex ? prev : selectedIndex + 1));
+            setReached((prev) =>
+              prev > selectedIndex ? prev : selectedIndex + 1
+            );
             setSelectedIndex((prev) => prev + 1);
-          }}>
+          }}
+        >
           {({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit} className="space-y-2">
-              <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+              <Tab.Group
+                selectedIndex={selectedIndex}
+                onChange={setSelectedIndex}
+              >
                 <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
                   <Tab
                     className={({ selected }) =>
                       classNames(
                         "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
                         "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                        selected ? "bg-white shadow" : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                        selected
+                          ? "bg-white shadow"
+                          : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
                       )
-                    }>
+                    }
+                  >
                     Account
                   </Tab>
                   <Tab
-                    disabled={addRider.isLoading || reached < 1}
+                    disabled={isLoading || reached < 1}
                     className={({ selected }) =>
                       classNames(
                         "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
                         "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                        selected ? "bg-white shadow" : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                        selected
+                          ? "bg-white shadow"
+                          : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
                       )
-                    }>
+                    }
+                  >
                     Profile
                   </Tab>
                   <Tab
-                    disabled={addRider.isLoading || reached < 2}
+                    disabled={isLoading || reached < 2}
                     className={({ selected }) =>
                       classNames(
                         "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
                         "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                        selected ? "bg-white shadow" : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                        selected
+                          ? "bg-white shadow"
+                          : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
                       )
-                    }>
+                    }
+                  >
                     Guarantor
                   </Tab>
                 </Tab.List>
@@ -114,23 +144,23 @@ export default function AddProject() {
                   <Tab.Panel className="space-y-4">
                     <FormInput
                       autoFocus
-                      name="first_name"
+                      name="user_profile.first_name"
                       label="First Name"
                       required
-                      error={addRider.error?.response?.data?.first_name}
+                      error={error?.response?.data?.first_name}
                     />
                     <FormInput
-                      name="last_name"
+                      name="user_profile.last_name"
                       label="Last Name"
                       required
-                      error={addRider.error?.response?.data?.last_name}
+                      error={error?.response?.data?.last_name}
                     />
                     <FormFileField
-                      name="image"
+                      name="user_profile.image"
                       label="Rider's Photo"
                       accept="image/png, image/jpg, image/jpeg"
                       required
-                      error={addRider.error?.response?.data?.image}
+                      error={error?.response?.data?.image}
                       description="Upload a clear image of the rider in JPG or PNG format"
                     />
                     <FormInput
@@ -138,23 +168,28 @@ export default function AddProject() {
                       label="Nationality"
                       required
                       description="Where is the rider from?"
-                      error={addRider.error?.response?.data?.rider_profile?.nationality}
+                      error={error?.response?.data?.rider_profile?.nationality}
                     />
-                    <FormPhoneInput name="phone" label="Phone" required error={addRider.error?.response?.data?.phone} />
+                    <FormPhoneInput
+                      name="user_profile.phone"
+                      label="Phone"
+                      required
+                      error={error?.response?.data?.phone}
+                    />
                     <FormInput
-                      name="email"
+                      name="user_profile.email"
                       label="Email"
                       required
                       autoComplete="off"
-                      error={addRider.error?.response?.data?.email}
+                      error={error?.response?.data?.email}
                     />
                     <FormInput
-                      name="password"
+                      name="user_profile.password"
                       label="Password"
                       required
                       autoComplete="new-password"
                       type="password"
-                      error={addRider.error?.response?.data?.password}
+                      error={error?.response?.data?.password}
                     />
                   </Tab.Panel>
                   <Tab.Panel className="space-y-4">
@@ -163,29 +198,35 @@ export default function AddProject() {
                       label="Address"
                       rows={2}
                       required
-                      error={addRider.error?.response?.data?.rider_profile?.address}
+                      error={error?.response?.data?.rider_profile?.address}
                     />
                     <FormInput
                       name="rider_profile.city"
                       label="City"
                       required
-                      error={addRider.error?.response?.data?.rider_profile?.city}
+                      error={error?.response?.data?.rider_profile?.city}
                     />
                     <FormSelect
-                      options={nigerianStates.map((state) => ({ label: state, value: state }))}
+                      options={nigerianStates.map((state) => ({
+                        label: state,
+                        value: state,
+                      }))}
                       placeholder="Select state"
                       name="rider_profile.state"
                       label="State"
                       required
-                      error={addRider.error?.response?.data?.rider_profile?.state}
+                      error={error?.response?.data?.rider_profile?.state}
                     />
                     <FormSelect
-                      options={countries.map((country) => ({ label: country, value: country }))}
+                      options={countries.map((country) => ({
+                        label: country,
+                        value: country,
+                      }))}
                       placeholder="Select country"
                       name="rider_profile.country"
                       label="Country"
                       required
-                      error={addRider.error?.response?.data?.rider_profile?.country}
+                      error={error?.response?.data?.rider_profile?.country}
                     />
                     <FormInput
                       name="rider_profile.nin"
@@ -193,7 +234,7 @@ export default function AddProject() {
                       required
                       pattern="[0-9]{11}"
                       title="NIN must be 11 digits"
-                      error={addRider.error?.response?.data?.rider_profile?.nin}
+                      error={error?.response?.data?.rider_profile?.nin}
                     />
                     <FormFileField
                       name="rider_profile.identification"
@@ -202,29 +243,39 @@ export default function AddProject() {
                       required
                       preview
                       description="Upload a clear image of the rider's driver's license, voter's card, NIN, passport etc. in JPG or PNG format"
-                      error={addRider.error?.response?.data?.rider_profile?.identification}
+                      error={
+                        error?.response?.data?.rider_profile?.identification
+                      }
                     />
                     <FormSelect
                       required
                       name="rider_profile.commission_type"
                       label="Rider contract"
                       placeholder="Select contract type"
-                      error={addRider.error?.response?.data?.rider_profile?.commission_type}
+                      error={
+                        error?.response?.data?.rider_profile?.commission_type
+                      }
                       description={
                         <>
-                          <span>Select the type of contract you want to offer this rider. </span>
+                          <span>
+                            Select the type of contract you want to offer this
+                            rider.{" "}
+                          </span>
                           <br />
                           <ul>
                             <li>
-                              <strong>Salary</strong> - The rider will be paid a fixed amount monthly
+                              <strong>Salary</strong> - The rider will be paid a
+                              fixed amount monthly
                             </li>
                             <li>
-                              <strong>Use global commission</strong> - The rider will be paid the general percentage of
-                              the delivery fee
+                              <strong>Use global commission</strong> - The rider
+                              will be paid the general percentage of the
+                              delivery fee
                             </li>
                             <li>
-                              <strong>Use individual commission</strong> - The rider will be paid a custom percentage of
-                              the delivery fee
+                              <strong>Use individual commission</strong> - The
+                              rider will be paid a custom percentage of the
+                              delivery fee
                             </li>
                           </ul>
                         </>
@@ -246,7 +297,8 @@ export default function AddProject() {
                     />
                     {
                       // @ts-ignore
-                      values.rider_profile?.commission_type === "individual" && (
+                      values.rider_profile?.commission_type ===
+                        "individual" && (
                         <FormInput
                           name="rider_profile.commission"
                           label="Commission in %"
@@ -261,17 +313,23 @@ export default function AddProject() {
                     <FormInput
                       name="rider_profile.guarantor_name"
                       label="Name"
-                      error={addRider.error?.response?.data?.rider_profile?.guarantor_name}
+                      error={
+                        error?.response?.data?.rider_profile?.guarantor_name
+                      }
                     />
                     <FormPhoneInput
                       name="rider_profile.guarantor_phone"
                       label="Phone"
-                      error={addRider.error?.response?.data?.rider_profile?.guarantor_phone}
+                      error={
+                        error?.response?.data?.rider_profile?.guarantor_phone
+                      }
                     />
                     <FormInput
                       name="rider_profile.guarantor_email"
                       label="Email Address"
-                      error={addRider.error?.response?.data?.rider_profile?.guarantor_email}
+                      error={
+                        error?.response?.data?.rider_profile?.guarantor_email
+                      }
                     />
                   </Tab.Panel>
                 </Tab.Panels>
@@ -279,8 +337,8 @@ export default function AddProject() {
               <div className="flex justify-end">
                 {/* @ts-ignore */}
                 <Button
-                  disabled={addRider.isLoading}
-                  isLoading={addRider.isLoading}
+                  disabled={isLoading}
+                  isLoading={isLoading}
                   loadingText="Adding Rider..."
                   type="submit"
                   text={selectedIndex === 2 ? "Add Rider" : "Next"}
