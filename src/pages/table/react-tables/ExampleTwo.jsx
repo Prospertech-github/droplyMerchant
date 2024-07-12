@@ -69,12 +69,12 @@ const COLUMNS = [
   },
   {
     Header: "rider",
-    accessor: "rider",
-    Cell: (row) => {
+    accessor: "rider_info",
+    Cell: ({ cell }) => {
       return (
         <div>
           <span className="text-sm text-slate-600 dark:text-slate-300 capitalize whitespace-nowrap">
-            {row?.cell?.value || "Unassigned"}
+            {cell?.value?.name || "Unassigned"}
           </span>
         </div>
       );

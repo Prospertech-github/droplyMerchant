@@ -44,6 +44,7 @@ const AssignRider = () => {
             });
 
             resetForm();
+            close();
           }}
           validateOnBlur={false}
         >
@@ -58,7 +59,7 @@ const AssignRider = () => {
                   options={
                     data?.map((rider) => ({
                       label: `${rider.user.first_name} ${rider.user.last_name}`,
-                      value: `${rider.user.id}`,
+                      value: `${rider.id}`,
                     })) || []
                   }
                   disabled={isLoading}
