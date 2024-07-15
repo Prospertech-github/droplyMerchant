@@ -1,5 +1,10 @@
 import React, { lazy, Suspense } from "react";
-import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  createRoutesFromElements,
+  Route,
+} from "react-router-dom";
 import ErrorBoundary from "./components/error-boundary";
 // home pages  & dashboard
 //import Dashboard from "./pages/dashboard";
@@ -70,7 +75,10 @@ const router = createBrowserRouter(
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/password/reset/confirm/:uid/:token" element={<PasswordResetPage />} />
+        <Route
+          path="/password/reset/confirm/:uid/:token"
+          element={<PasswordResetPage />}
+        />
         <Route path="/register" element={<Register />} />
         <Route path="/verify" element={<VerifyPage />} />
       </Route>
