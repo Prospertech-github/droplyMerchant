@@ -40,16 +40,10 @@ export default function CompleteSignupForm() {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={async (_values) => {
-        const values = _values as typeof _values & {
-          logo_file: File;
-          cac_doc_file: File;
-        };
+      onSubmit={async (values) => {
         try {
           await addOrg({
-            ..._values,
-            logo: values.logo_file,
-            cac_doc: values.cac_doc_file,
+            ...values,
           });
           toast.success("Organization created successfully");
           navigate(`/dashboard`, { replace: true });
