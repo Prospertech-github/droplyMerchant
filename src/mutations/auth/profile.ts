@@ -60,8 +60,8 @@ export function useAddOrg() {
   const queryClient = useQueryClient();
 
   return useMutation(addOrg, {
-    onSuccess() {
-      queryClient.invalidateQueries(["auth/users/me/"]);
+    onSettled: async () => {
+      await queryClient.fetchQuery(["auth/users/me/"]);
     },
   });
 }
