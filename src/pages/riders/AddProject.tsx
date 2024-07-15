@@ -69,8 +69,6 @@ export default function AddProject() {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={async (values, { resetForm }) => {
-            console.log(values);
-
             if (selectedIndex === 2) {
               try {
                 const response = await addRider(values);
