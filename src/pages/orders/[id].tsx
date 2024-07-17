@@ -2,8 +2,6 @@ import Card from "@/components/ui/Card";
 import { useOrder } from "@/data/orders";
 import { useParams } from "react-router-dom";
 import styles from "./page.module.css";
-import classNames from "classnames";
-import moment from "dayjs";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function OrderDetailsPage() {
@@ -13,7 +11,9 @@ export default function OrderDetailsPage() {
   if (isLoading) {
     return (
       <div>
-        <div className="bg-white shadow rounded-lg p-4 animate-pulse h-40" />
+        <div className="bg-white shadow rounded-lg p-4 animate-pulse h-40">
+          <p>Loading.....</p>
+        </div>
       </div>
     );
   }
@@ -41,10 +41,6 @@ export default function OrderDetailsPage() {
               <dd>{data?.status}</dd>
             </div>
             <div>
-              <dt>Item Name</dt>
-              <dd>{data?.item}</dd>
-            </div>
-            <div>
               <dt>Delivery Price</dt>
               <dd>
                 {data?.amount?.toLocaleString(undefined, {
@@ -66,10 +62,12 @@ export default function OrderDetailsPage() {
               <dt>Phone</dt>
               <dd>{data?.phone}</dd>
             </div>
-            <div>
-              <dt>Email</dt>
-              <dd>{data?.email}</dd>
-            </div>
+            {data?.email && (
+              <div>
+                <dt>Email</dt>
+                <dd>{data?.email}</dd>
+              </div>
+            )}
             <div>
               <dt>Address</dt>
               <dd>{data?.pickup}</dd>
@@ -77,20 +75,20 @@ export default function OrderDetailsPage() {
           </dl>
         </Card>
         <Card title="Rider Details">
-          {/* <dl className={styles.list}>
+          <dl className={styles.list}>
             <div>
               <dt>Name</dt>
-              <dd>{data?.rider_info?.user.first_name + " " + data?.rider_info?.user.last_name}</dd>
+              <dd>{data?.rider_info?.name}</dd>
             </div>
             <div>
               <dt>Phone</dt>
-              <dd>{data?.rider_info?.user.phone}</dd>
+              <dd>{data?.rider_info?.phone}</dd>
             </div>
             <div>
               <dt>Email</dt>
-              <dd>{data?.rider_info?.user.email}</dd>
+              <dd>{data?.rider_info?.email}</dd>
             </div>
-          </dl> */}
+          </dl>
         </Card>
         <Card title="Receiver Details">
           <dl className={styles.list}>
