@@ -33,7 +33,11 @@ type Rider = {
 
 type Order = {
   id: string;
-  rider_info: Rider;
+  rider_info: {
+    name: string;
+    phone: string;
+    email: string;
+  };
   booking_id: string;
   name: string;
   email: string;

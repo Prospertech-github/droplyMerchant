@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { axios } from "@/utils/api";
 
 async function addRider(rider: {
-  [key: string]: { [key: string]: string | File };
+  [key: string]: { [key: string]: string | File } | string;
 }) {
   const { data } = await axios.post("auth/rider/signup/", rider);
   return data;

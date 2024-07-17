@@ -75,8 +75,15 @@ export default function AddProject() {
             { resetForm }
           ) => {
             values.image = values.image_base64 as string;
-            values.rider_profile.identification = values.rider_profile
-              .identification_base64 as string;
+
+            const riderProfile = values.rider_profile as
+              | { [key: string]: string }
+              | undefined;
+
+            if (riderProfile) {
+              riderProfile.identification =
+                riderProfile.identification_base64 as string;
+            }
 
             if (selectedIndex === 2) {
               try {
