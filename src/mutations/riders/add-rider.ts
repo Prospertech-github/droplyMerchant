@@ -5,7 +5,7 @@ import { axios } from "@/utils/api";
 async function addRider(rider: {
   [key: string]: { [key: string]: string | File };
 }) {
-  const { data } = await axios.postForm("auth/rider/signup/", rider);
+  const { data } = await axios.post("auth/rider/signup/", rider);
   return data;
 }
 

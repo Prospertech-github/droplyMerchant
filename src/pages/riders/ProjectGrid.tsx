@@ -4,6 +4,7 @@ import Dropdown from "@/components/ui/Dropdown";
 import { Menu } from "@headlessui/react";
 import Icon from "@/components/ui/Icon";
 import { useNavigate } from "react-router-dom";
+import { useTBERidersModalStore } from "@/data/riders/modal";
 
 const ProjectGrid = ({ rider }: { rider: Rider }) => {
   const navigate = useNavigate();
@@ -36,24 +37,34 @@ const ProjectGrid = ({ rider }: { rider: Rider }) => {
               <span className="text-lg inline-flex flex-col items-center justify-center h-8 w-8 rounded-full bg-gray-500-f7 dark:bg-slate-900 dark:text-slate-400">
                 <Icon icon="heroicons-outline:dots-vertical" />
               </span>
-            }>
+            }
+          >
             <div>
               <Menu.Item onClick={() => handleClick(rider)}>
                 <div
                   className="hover:bg-slate-900 dark:hover:bg-slate-600 dark:hover:bg-opacity-70 hover:text-white
                    w-full border-b border-b-gray-500 border-opacity-10   px-4 py-2 text-sm dark:text-slate-300  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center
-                     capitalize rtl:space-x-reverse">
+                     capitalize rtl:space-x-reverse"
+                >
                   <span className="text-base">
                     <Icon icon="heroicons:eye" />
                   </span>
                   <span>View</span>
                 </div>
               </Menu.Item>
-              <Menu.Item onClick={() => {}}>
+              <Menu.Item
+                onClick={() => {
+                  useTBERidersModalStore.setState({
+                    rider: rider,
+                    isOpen: true,
+                  });
+                }}
+              >
                 <div
                   className="hover:bg-slate-900 dark:hover:bg-slate-600 dark:hover:bg-opacity-70 hover:text-white
                    w-full border-b border-b-gray-500 border-opacity-10   px-4 py-2 text-sm dark:text-slate-300  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center
-                     capitalize rtl:space-x-reverse">
+                     capitalize rtl:space-x-reverse"
+                >
                   <span className="text-base">
                     <Icon icon="heroicons-outline:pencil-alt" />
                   </span>
@@ -64,7 +75,8 @@ const ProjectGrid = ({ rider }: { rider: Rider }) => {
                 <div
                   className="hover:bg-slate-900 dark:hover:bg-slate-600 dark:hover:bg-opacity-70 hover:text-white
                    w-full border-b border-b-gray-500 border-opacity-10   px-4 py-2 text-sm dark:text-slate-300  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center
-                     capitalize rtl:space-x-reverse">
+                     capitalize rtl:space-x-reverse"
+                >
                   <span className="text-base">
                     <Icon icon="heroicons-outline:trash" />
                   </span>
@@ -75,8 +87,12 @@ const ProjectGrid = ({ rider }: { rider: Rider }) => {
           </Dropdown>
         </div>
       </header>
-      <div className="text-slate-600 dark:text-slate-400 text-sm pt-4 pb-8">{rider.user.email}</div>
-      <div className="text-slate-600 dark:text-slate-400 text-sm pt-4 pb-8">{rider.user.phone}</div>
+      <div className="text-slate-600 dark:text-slate-400 text-sm pt-4 pb-8">
+        {rider.user.email}
+      </div>
+      <div className="text-slate-600 dark:text-slate-400 text-sm pt-4 pb-8">
+        {rider.user.phone}
+      </div>
       <div className="flex space-x-4 rtl:space-x-reverse">
         {/* start date */}
         {/* <div>

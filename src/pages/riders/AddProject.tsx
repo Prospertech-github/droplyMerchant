@@ -49,7 +49,7 @@ export default function AddProject() {
       <Button
         icon="heroicons-outline:plus"
         text="Add Rider"
-        className="btn-dark dark:bg-slate-800  h-min text-sm font-normal"
+        className="btn-dark dark:bg-slate-800 h-min text-sm font-normal"
         iconClass=" text-lg"
         onClick={() => {
           setIsOpen(true);
@@ -68,7 +68,16 @@ export default function AddProject() {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={async (values, { resetForm }) => {
+          onSubmit={async (
+            values: {
+              [key: string]: { [key: string]: string | File } | string;
+            },
+            { resetForm }
+          ) => {
+            values.image = values.image_base64 as string;
+            values.rider_profile.identification = values.rider_profile
+              .identification_base64 as string;
+
             if (selectedIndex === 2) {
               try {
                 const response = await addRider(values);
@@ -154,7 +163,7 @@ export default function AddProject() {
                       error={error?.response?.data?.last_name}
                     />
                     <FormFileField
-                      name="user_profile.image"
+                      name="image"
                       label="Rider's Photo"
                       accept="image/png, image/jpg, image/jpeg"
                       required
