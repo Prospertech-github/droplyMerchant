@@ -34,19 +34,31 @@ const GroupChart3 = () => {
   if (isLoading) {
     return (
       <>
-        <div className="flex flex-col items-center justify-center space-y-2 p-6" key={1}>
+        <div
+          className="flex flex-col items-center justify-center space-y-2 p-6"
+          key={1}
+        >
           <div className="h-8 w-full bg-gray-200 animate-pulse" />
           <div className="h-4 w-full rounded-full bg-gray-200 animate-pulse" />
         </div>
-        <div className="flex flex-col items-center justify-center space-y-2 p-6" key={2}>
+        <div
+          className="flex flex-col items-center justify-center space-y-2 p-6"
+          key={2}
+        >
           <div className="h-8 w-full bg-gray-200 animate-pulse" />
           <div className="h-4 w-full rounded-full bg-gray-200 animate-pulse" />
         </div>
-        <div className="flex flex-col items-center justify-center space-y-2 p-6" key={3}>
+        <div
+          className="flex flex-col items-center justify-center space-y-2 p-6"
+          key={3}
+        >
           <div className="h-8 w-full bg-gray-200 animate-pulse" />
           <div className="h-4 w-full rounded-full bg-gray-200 animate-pulse" />
         </div>
-        <div className="flex flex-col items-center justify-center space-y-2 p-6" key={4}>
+        <div
+          className="flex flex-col items-center justify-center space-y-2 p-6"
+          key={4}
+        >
           <div className="h-8 w-full bg-gray-200 animate-pulse" />
           <div className="h-4 w-full rounded-full bg-gray-200 animate-pulse" />
         </div>
@@ -55,11 +67,20 @@ const GroupChart3 = () => {
   }
   return (
     <>
-      <div className={`${statistics[1].bg} rounded-md p-4 bg-opacity-[0.15] dark:bg-opacity-25 relative z-[1]`}>
+      <div
+        className={`${statistics[1].bg} rounded-md p-4 bg-opacity-[0.15] dark:bg-opacity-25 relative z-[1]`}
+      >
         <div className="overlay absolute left-0 top-0 w-full h-full z-[-1]">
-          <img src={statistics[1].img} alt="" draggable="false" className="w-full h-full object-contain" />
+          <img
+            src={statistics[1].img}
+            alt=""
+            draggable="false"
+            className="w-full h-full object-contain"
+          />
         </div>
-        <span className="block mb-6 text-sm text-slate-900 dark:text-white font-medium">All time revenue</span>
+        <span className="block mb-6 text-sm text-slate-900 dark:text-white font-medium">
+          All time revenue
+        </span>
         <span className="block text-2xl text-slate-900 dark:text-white font-medium mb-4">
           {data.revenue.total_revenue_all_time.toLocaleString(undefined, {
             style: "currency",
@@ -68,17 +89,23 @@ const GroupChart3 = () => {
           })}
         </span>
         <div className="flex flex-col rtl:space-x-reverse">
-          <span className={clsx("inline-flex items-center gap-2 text-success-700 dark:text-success-300")}>
+          <span
+            className={clsx(
+              "inline-flex items-center gap-2 text-success-700 dark:text-success-300"
+            )}
+          >
             <Icon
               icon={
-                data.revenue.total_revenue_this_month < data.revenue.total_revenue_last_month
+                data.revenue.total_revenue_this_month <
+                data.revenue.total_revenue_last_month
                   ? "heroicons:arrow-trending-down"
                   : "heroicons:arrow-trending-up"
               }
             />{" "}
             <span className="text-sm">
               {Math.abs(
-                (data.revenue.total_revenue_this_month - data.revenue.total_revenue_last_month) /
+                (data.revenue.total_revenue_this_month -
+                  data.revenue.total_revenue_last_month) /
                   data.revenue.total_revenue_last_month
               ).toLocaleString(undefined, {
                 style: "percent",
@@ -96,30 +123,47 @@ const GroupChart3 = () => {
                 currencyDisplay: "narrowSymbol",
               })}{" "}
             </span>
-            <span className=" text-slate-600 dark:text-slate-300">this month</span>
+            <span className=" text-slate-600 dark:text-slate-300">
+              this month
+            </span>
           </div>
         </div>
       </div>
-      <div className={`${statistics[0].bg} rounded-md p-4 bg-opacity-[0.15] dark:bg-opacity-25 relative z-[1]`}>
+      <div
+        className={`${statistics[0].bg} rounded-md p-4 bg-opacity-[0.15] dark:bg-opacity-25 relative z-[1]`}
+      >
         <div className="overlay absolute left-0 top-0 w-full h-full z-[-1]">
-          <img src={statistics[0].img} alt="" draggable="false" className="w-full h-full object-contain" />
+          <img
+            src={statistics[0].img}
+            alt=""
+            draggable="false"
+            className="w-full h-full object-contain"
+          />
         </div>
-        <span className="block mb-6 text-sm text-slate-900 dark:text-white font-medium">Total orders</span>
+        <span className="block mb-6 text-sm text-slate-900 dark:text-white font-medium">
+          Total orders
+        </span>
         <span className="block mb- text-2xl text-slate-900 dark:text-white font-medium mb-4">
           {data.order.total_orders_all_time}
         </span>
         <div className="flex flex-col rtl:space-x-reverse">
-          <span className={clsx("inline-flex items-center gap-2 text-success-700 dark:text-success-300")}>
+          <span
+            className={clsx(
+              "inline-flex items-center gap-2 text-success-700 dark:text-success-300"
+            )}
+          >
             <Icon
               icon={
-                data.order.total_orders_this_month < data.order.total_orders_last_month
+                data.order.total_orders_this_month <
+                data.order.total_orders_last_month
                   ? "heroicons:arrow-trending-down"
                   : "heroicons:arrow-trending-up"
               }
             />{" "}
             <span className="text-sm">
               {Math.abs(
-                (data.order.total_orders_this_month - data.order.total_orders_last_month) /
+                (data.order.total_orders_this_month -
+                  data.order.total_orders_last_month) /
                   data.order.total_orders_last_month
               ).toLocaleString(undefined, {
                 style: "percent",
@@ -130,26 +174,48 @@ const GroupChart3 = () => {
             </span>
           </span>
           <div className="text-sm">
-            <span className={`mb-[2px]`}>{data.order.total_orders_this_month} orders </span>
-            <span className=" text-slate-600 dark:text-slate-300">this month</span>
+            <span className={`mb-[2px]`}>
+              {data.order.total_orders_this_month} orders{" "}
+            </span>
+            <span className=" text-slate-600 dark:text-slate-300">
+              this month
+            </span>
           </div>
         </div>
       </div>
 
-      <div className={`${statistics[2].bg} rounded-md p-4 bg-opacity-[0.15] dark:bg-opacity-25 relative z-[1]`}>
+      <div
+        className={`${statistics[2].bg} rounded-md p-4 bg-opacity-[0.15] dark:bg-opacity-25 relative z-[1]`}
+      >
         <div className="overlay absolute left-0 top-0 w-full h-full z-[-1]">
-          <img src={statistics[2].img} alt="" draggable="false" className="w-full h-full object-contain" />
+          <img
+            src={statistics[2].img}
+            alt=""
+            draggable="false"
+            className="w-full h-full object-contain"
+          />
         </div>
-        <span className="block mb-6 text-sm text-slate-900 dark:text-white font-medium">Total riders</span>
+        <span className="block mb-6 text-sm text-slate-900 dark:text-white font-medium">
+          Total riders
+        </span>
         <span className="block mb- text-2xl text-slate-900 dark:text-white font-medium mb-6">
           {data.total_riders.toLocaleString()}
         </span>
       </div>
-      <div className={`${statistics[3].bg} rounded-md p-4 bg-opacity-[0.15] dark:bg-opacity-25 relative z-[1]`}>
+      <div
+        className={`${statistics[3].bg} rounded-md p-4 bg-opacity-[0.15] dark:bg-opacity-25 relative z-[1]`}
+      >
         <div className="overlay absolute left-0 top-0 w-full h-full z-[-1]">
-          <img src={statistics[3].img} alt="" draggable="false" className="w-full h-full object-contain" />
+          <img
+            src={statistics[3].img}
+            alt=""
+            draggable="false"
+            className="w-full h-full object-contain"
+          />
         </div>
-        <span className="block mb-6 text-sm text-slate-900 dark:text-white font-medium">Average rating</span>
+        <span className="block mb-6 text-sm text-slate-900 dark:text-white font-medium">
+          Average rating
+        </span>
         <span className="block mb- text-2xl text-slate-900 dark:text-white font-medium mb-6">
           {data.rating.toLocaleString(undefined, {
             minimumFractionDigits: 1,
