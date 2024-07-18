@@ -1,16 +1,17 @@
-import _axios from 'axios'
-import { logout } from './logout'
-import { QueryFunctionContext } from '@tanstack/react-query'
-import { API_TOKEN } from '../../app-constants'
-import refreshToken from './refresh-token'
-_axios.defaults.baseURL = import.meta.env.VITE_API_URL
+import _axios from "axios";
+import { QueryFunctionContext } from "@tanstack/react-query";
+import { captureException } from "@sentry/react";
+import { logout } from "./logout";
+import { API_TOKEN } from "../../app-constants";
+import refreshToken from "./refresh-token";
+_axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
-export const axios = _axios.create()
+export const axios = _axios.create();
 
-let refreshPromise: Promise<any> | null = null
+let refreshPromise: Promise<any> | null = null;
 
-axios.defaults.headers.common.Accept = 'application/json'
-axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.common.Accept = "application/json";
+axios.defaults.headers.post["Content-Type"] = "application/json";
 
 axios.interceptors.response.use(
   (response) => response,
@@ -22,70 +23,76 @@ axios.interceptors.response.use(
       error?.response?.data?.non_field_errors ||
       error?.response?.data ||
       error?.message ||
-      'Network Error'
+      "Network Error";
 
-    error.message = message
+    error.message = message;
 
     if (error?.response?.status === 401) {
-      if (message === 'Token is invalid or expired' || message === 'Token is blacklisted') {
-        logout()
-      } else if (
-        message === 'Given token not valid for any token type' ||
-        message === 'Authentication credentials were not provided.'
+      if (
+        message === "Token is invalid or expired" ||
+        message === "Token is blacklisted"
       ) {
-        const token = localStorage.getItem(API_TOKEN)
+        logout();
+      } else if (
+        message === "Given token not valid for any token type" ||
+        message === "Authentication credentials were not provided."
+      ) {
+        const token = localStorage.getItem(API_TOKEN);
 
         if (token) {
           if (!refreshPromise) {
             refreshPromise = refreshToken(token).then(() => {
-              refreshPromise = null
-            })
+              refreshPromise = null;
+            });
           }
 
           try {
-            const { data } = await refreshPromise
+            const { data } = await refreshPromise;
 
-            localStorage.setItem(API_TOKEN, data.refresh)
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.access
+            localStorage.setItem(API_TOKEN, data.refresh);
+            axios.defaults.headers.common["Authorization"] =
+              "Bearer " + data.access;
 
-            return axios.request(error?.config)
+            return axios.request(error?.config);
           } catch (e) {
-            logout()
+            logout();
           }
         } else {
-          logout()
+          logout();
         }
-      } else return Promise.reject(error)
-    } else return Promise.reject(error)
+      } else return Promise.reject(error);
+    } else if (error?.response?.status.toString()[0] === "5") {
+      captureException(error);
+    } else return Promise.reject(error);
   }
-)
+);
 
 export async function fetchUserIfTokenExists() {
-  const token = localStorage.getItem(API_TOKEN)
+  const token = localStorage.getItem(API_TOKEN);
 
-  if (token && axios.defaults.headers.common['Authorization']) {
-    return null
+  if (token && axios.defaults.headers.common["Authorization"]) {
+    return null;
   }
 
   if (token) {
-    const data = await refreshToken(token)
+    const data = await refreshToken(token);
 
-    localStorage.setItem(API_TOKEN, data.refresh)
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.access
+    localStorage.setItem(API_TOKEN, data.refresh);
+    axios.defaults.headers.common["Authorization"] = "Bearer " + data.access;
   } else {
-    throw new Error('No token found')
+    throw new Error("No token found");
   }
 }
 
 export async function defaultQueryFn<T>({ queryKey }: QueryFunctionContext) {
-  const { data } = await axios.get(queryKey.join('/'))
+  const { data } = await axios.get(queryKey.join("/"));
 
-  return data as T
+  return data as T;
 }
 
 // On localStorage value change from another tab, logout
-window.addEventListener('storage', (event) => {
+window.addEventListener("storage", (event) => {
   if (event.key === API_TOKEN && !event.newValue) {
-    logout()
+    logout();
   }
-})
+});
