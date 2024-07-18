@@ -103,15 +103,18 @@ const GroupChart3 = () => {
               }
             />{" "}
             <span className="text-sm">
-              {Math.abs(
-                (data.revenue.total_revenue_this_month -
-                  data.revenue.total_revenue_last_month) /
-                  data.revenue.total_revenue_last_month
-              ).toLocaleString(undefined, {
-                style: "percent",
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}{" "}
+              {!!data.revenue.total_revenue_this_month &&
+              !!data.revenue.total_revenue_last_month
+                ? Math.abs(
+                    (data.revenue.total_revenue_this_month -
+                      data.revenue.total_revenue_last_month) /
+                      data.revenue.total_revenue_last_month
+                  ).toLocaleString(undefined, {
+                    style: "percent",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })
+                : "0%"}{" "}
               from last month
             </span>
           </span>
@@ -161,15 +164,18 @@ const GroupChart3 = () => {
               }
             />{" "}
             <span className="text-sm">
-              {Math.abs(
-                (data.order.total_orders_this_month -
-                  data.order.total_orders_last_month) /
-                  data.order.total_orders_last_month
-              ).toLocaleString(undefined, {
-                style: "percent",
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}{" "}
+              {!!data.order.total_orders_this_month &&
+              !!data.order.total_orders_last_month
+                ? Math.abs(
+                    (data.order.total_orders_this_month -
+                      data.order.total_orders_last_month) /
+                      data.order.total_orders_last_month
+                  ).toLocaleString(undefined, {
+                    style: "percent",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })
+                : "0%"}{" "}
               from last month
             </span>
           </span>
