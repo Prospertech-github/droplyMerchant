@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { defineConfig } from "vite";
 import reactRefresh from "@vitejs/plugin-react-refresh";
 import react from "@vitejs/plugin-react";
@@ -15,14 +16,18 @@ export default defineConfig({
     ],
   },
 
-  plugins: [
-    rollupReplace({
-      preventAssignment: true,
-      values: {
-        __DEV__: JSON.stringify(true),
-        "process.env.NODE_ENV": JSON.stringify("development"),
-      },
-    }),
-    react(),
-  ],
+  plugins: [rollupReplace({
+    preventAssignment: true,
+    values: {
+      __DEV__: JSON.stringify(true),
+      "process.env.NODE_ENV": JSON.stringify("development"),
+    },
+  }), react(), sentryVitePlugin({
+    org: "zyd-code",
+    project: "droply-merchant-dashboard"
+  })],
+
+  build: {
+    sourcemap: true
+  }
 });

@@ -1,11 +1,16 @@
+import { useEffect } from "react";
 import { useRouteError } from "react-router-dom";
-
+import { captureException } from "@sentry/react";
 import ErrorOccured from "@/assets/images/illustrations/error-occured.png";
 
 export default function ErrorBoundary() {
   const error = useRouteError();
 
   console.error(error);
+
+  useEffect(() => {
+    captureException(error);
+  }, []);
 
   return (
     <>

@@ -20,6 +20,8 @@
     "@iconify/react": "^4.0.0",
     "@reduxjs/toolkit": "^1.9.0",
     "@rollup/plugin-replace": "^5.0.2",
+    "@sentry/react": "^8.18.0",
+    "@sentry/vite-plugin": "^2.21.1",
     "@south-paw/react-vector-maps": "^3.2.0",
     "@svg-maps/world": "^1.0.1",
     "@tanstack/react-query": "^4.35.7",
