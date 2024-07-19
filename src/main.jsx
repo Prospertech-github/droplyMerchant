@@ -6,6 +6,7 @@ import "flatpickr/dist/themes/light.css";
 import "./assets/scss/app.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
+import * as Sentry from "@sentry/react";
 import { ToastContainer } from "react-toastify";
 import store from "./store";
 import ReactQueryProvider from "./providers/react-query.tsx";
