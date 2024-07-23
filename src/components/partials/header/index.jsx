@@ -35,21 +35,28 @@ const Header = ({ className = "custom-class" }) => {
         className={` app-header md:px-6 px-[15px]  dark:bg-slate-800 shadow-base dark:shadow-base3 bg-white
         dark:border-b dark:border-slate-700 dark:border-opacity-60
           md:py-6 py-3
-        `}>
+        `}
+      >
         <div className="flex justify-between items-center h-full">
           {/* For Vertical  */}
 
           {menuType === "vertical" && (
             <div className="flex items-center md:space-x-4 space-x-2 rtl:space-x-reverse">
-              {collapsed && width >= breakpoints.xl && (
-                <button className="text-xl text-slate-900 dark:text-white" onClick={() => setMenuCollapsed(!collapsed)}>
+              {collapsed && width >= breakpoints.lg && (
+                <button
+                  className="text-xl text-slate-900 dark:text-white"
+                  onClick={() => setMenuCollapsed(!collapsed)}
+                >
                   {<Icon icon="akar-icons:arrow-right" />}
                 </button>
               )}
-              {width < breakpoints.xl && <Logo />}
+              {width < breakpoints.lg && <Logo />}
               {/* open mobile menu handlaer*/}
-              {width < breakpoints.xl && width >= breakpoints.md && (
-                <div className="cursor-pointer text-slate-900 dark:text-white text-2xl" onClick={handleOpenMobileMenu}>
+              {width < breakpoints.lg && width >= breakpoints.md && (
+                <div
+                  className="cursor-pointer text-slate-900 dark:text-white text-2xl"
+                  onClick={handleOpenMobileMenu}
+                >
                   <Icon icon="heroicons-outline:menu-alt-3" />
                 </div>
               )}
@@ -61,8 +68,11 @@ const Header = ({ className = "custom-class" }) => {
             <div className="flex items-center space-x-4 rtl:space-x-reverse">
               <Logo />
               {/* open mobile menu handlaer*/}
-              {width <= breakpoints.xl && (
-                <div className="cursor-pointer text-slate-900 dark:text-white text-2xl" onClick={handleOpenMobileMenu}>
+              {width <= breakpoints.lg && (
+                <div
+                  className="cursor-pointer text-slate-900 dark:text-white text-2xl"
+                  onClick={handleOpenMobileMenu}
+                >
                   <Icon icon="heroicons-outline:menu-alt-3" />
                 </div>
               )}
@@ -75,7 +85,10 @@ const Header = ({ className = "custom-class" }) => {
             {/* {width >= breakpoints.md && <Notification />} */}
             {width >= breakpoints.md && <Profile />}
             {width <= breakpoints.md && (
-              <div className="cursor-pointer text-slate-900 dark:text-white text-2xl" onClick={handleOpenMobileMenu}>
+              <div
+                className="cursor-pointer text-slate-900 dark:text-white text-2xl"
+                onClick={handleOpenMobileMenu}
+              >
                 <Icon icon="heroicons-outline:menu-alt-3" />
               </div>
             )}
