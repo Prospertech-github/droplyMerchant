@@ -62,12 +62,14 @@ export default function Finances() {
             name="additional_km"
             label="Price for additional km"
             error={updateOrg.error?.response?.data?.additional_km}
+            description="This is the price for the subsequent km of a trip"
           />
           <FormInput
             type="number"
             name="commission"
-            label="Commission (%)"
+            label="Commission in %"
             error={updateOrg.error?.response?.data?.commission}
+            description="This is the percentage that will be taken per order from every rider you register"
           />
           <div className="flex justify-end">
             {/* @ts-ignore */}

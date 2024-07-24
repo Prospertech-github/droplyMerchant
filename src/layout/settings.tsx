@@ -13,7 +13,7 @@ const menus = [
     to: "company",
   },
   {
-    title: "Finances",
+    title: "Financial Information",
     to: "finances",
   },
   {
@@ -47,14 +47,20 @@ export default function SettingsLayout() {
                           ? "bg-slate-100 dark:bg-slate-900 dark:text-white"
                           : "bg-white dark:bg-slate-800 dark:text-slate-300"
                       }
-                      `}>
+                      `}
+                  >
                     {({ isActive }) => (
                       <>
                         <span
                           className={`
                               "text-lg",
-                              ${isActive ? " opacity-100" : "opacity-50 dark:opacity-100"}
-                        `}></span>
+                              ${
+                                isActive
+                                  ? " opacity-100"
+                                  : "opacity-50 dark:opacity-100"
+                              }
+                        `}
+                        ></span>
                         <Icon icon="heroicons:chevron-double-right-solid" />
                         <span> {item.title}</span>
                       </>

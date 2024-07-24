@@ -9,7 +9,12 @@ export default function CompanyInfo() {
   const user = useLoggedInUser();
   if (!user.data?.org_) return <div>Loading...</div>;
   return (
-    <Formik initialValues={user.data.org_} onSubmit={(values) => {}}>
+    <Formik
+      initialValues={user.data.org_}
+      onSubmit={(values) => {
+        console.log(values);
+      }}
+    >
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit} className="space-y-4">
           <FormInput name="name" label="Company Name" required />

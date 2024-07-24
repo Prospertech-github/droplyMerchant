@@ -133,7 +133,7 @@ const RiderDetailsPage = () => {
                 <span className="bg-green-500 h-2 w-2 rounded-full inline-block" />
               </span>
               <Button
-                className="bg-orange-200 dark:bg-orange-400"
+                // className="bg-orange-200 dark:bg-orange-400"
                 onClick={() => {
                   useTBERidersModalStore.setState({
                     rider: rider.data,

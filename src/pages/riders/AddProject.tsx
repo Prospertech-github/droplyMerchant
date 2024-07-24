@@ -15,6 +15,7 @@ import classNames from "classnames";
 import { useLocation } from "react-router-dom";
 import nigerianStates from "@/data/countries/states";
 import countries from "@/data/countries";
+import lgaData from "@/utils/data/lga.json";
 
 const validationSchema = object({
   user_profile: object({
@@ -22,7 +23,7 @@ const validationSchema = object({
     last_name: string().trim().required("Last Name is required"),
     email: string().trim().email("Invalid Email").required("Email is required"),
     phone: string().trim().required("Phone is required"),
-    password: string().trim().required("Password is required"),
+    // password: string().trim().required("Password is required"),
   }),
 }).required();
 
@@ -32,7 +33,7 @@ const initialValues = {
     last_name: "",
     email: "",
     phone: "",
-    password: "",
+    // password: "",
     account_type: "rider",
   },
 };
@@ -197,14 +198,14 @@ export default function AddProject() {
                       autoComplete="off"
                       error={error?.response?.data?.email}
                     />
-                    <FormInput
+                    {/* <FormInput
                       name="user_profile.password"
                       label="Password"
                       required
                       autoComplete="new-password"
                       type="password"
                       error={error?.response?.data?.password}
-                    />
+                    /> */}
                   </Tab.Panel>
                   <Tab.Panel className="space-y-4">
                     <FormTextArea
@@ -214,11 +215,18 @@ export default function AddProject() {
                       required
                       error={error?.response?.data?.rider_profile?.address}
                     />
-                    <FormInput
-                      name="rider_profile.city"
-                      label="City"
+                    <FormSelect
+                      options={
+                        lgaData?.map((lga) => ({
+                          label: lga,
+                          value: lga,
+                        })) || []
+                      }
+                      placeholder="Select Local Government Area"
+                      name="rider_profile.lga"
+                      label="Local Government Area"
                       required
-                      error={error?.response?.data?.rider_profile?.city}
+                      error={error?.response?.data?.rider_profile?.state}
                     />
                     <FormSelect
                       options={nigerianStates.map((state) => ({
@@ -236,9 +244,9 @@ export default function AddProject() {
                         label: country,
                         value: country,
                       }))}
-                      placeholder="Select country"
+                      placeholder="Select nationality"
                       name="rider_profile.country"
-                      label="Country"
+                      label="Nationality"
                       required
                       error={error?.response?.data?.rider_profile?.country}
                     />
