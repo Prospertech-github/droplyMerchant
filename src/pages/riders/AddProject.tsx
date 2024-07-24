@@ -178,13 +178,13 @@ export default function AddProject() {
                       error={error?.response?.data?.image}
                       description="Upload a clear image of the rider in JPG or PNG format"
                     />
-                    <FormInput
+                    {/* <FormInput
                       name="rider_profile.nationality"
                       label="Nationality"
                       required
                       description="Where is the rider from?"
                       error={error?.response?.data?.rider_profile?.nationality}
-                    />
+                    /> */}
                     <FormPhoneInput
                       name="user_profile.phone"
                       label="Phone"
@@ -245,9 +245,10 @@ export default function AddProject() {
                         value: country,
                       }))}
                       placeholder="Select nationality"
-                      name="rider_profile.country"
+                      name="rider_profile.nationality"
                       label="Nationality"
                       required
+                      description="Where is the rider from?"
                       error={error?.response?.data?.rider_profile?.country}
                     />
                     <FormInput
