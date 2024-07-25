@@ -24,6 +24,7 @@ import clsx from "clsx";
 import { Formik } from "formik";
 import { useState } from "react";
 import { toast } from "react-toastify";
+// import { useNavigate } from "react-router-dom";
 
 export default function WalletPage() {
   const walletBalance = useWalletBalance();
@@ -397,6 +398,8 @@ const columns: ColumnDef<WHistory>[] = [
 ];
 
 function WalletHistory() {
+  // const navigate = useNavigate();
+
   const walletHistory = useWalletHistory();
 
   const tableInstance = useReactTable({
@@ -438,7 +441,11 @@ function WalletHistory() {
               </thead>
               <tbody className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
                 {tableInstance.getRowModel().rows.map((row) => (
-                  <tr key={row.id}>
+                  <tr
+                    key={row.id}
+                    // onClick={() => navigate(`./${row.original.id}`)}
+                    className="cursor-pointer hover:bg-slate-50/80"
+                  >
                     {row.getVisibleCells().map((cell) => (
                       <td className="table-td" key={cell.id}>
                         {flexRender(

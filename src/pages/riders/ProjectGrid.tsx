@@ -87,11 +87,13 @@ const ProjectGrid = ({ rider }: { rider: Rider }) => {
           </Dropdown>
         </div>
       </header>
-      <div className="text-slate-600 dark:text-slate-400 text-sm pt-4 pb-8">
-        {rider.user.email}
-      </div>
-      <div className="text-slate-600 dark:text-slate-400 text-sm pt-4 pb-8">
-        {rider.user.phone}
+      <div className="pt-4 pb-8 flex flex-col gap-4">
+        <p className="text-slate-600 dark:text-slate-400 text-sm">
+          {rider.user.email}
+        </p>
+        <p className="text-slate-600 dark:text-slate-400 text-sm">
+          {rider.user.phone}
+        </p>
       </div>
       <div className="flex space-x-4 rtl:space-x-reverse">
         {/* start date */}

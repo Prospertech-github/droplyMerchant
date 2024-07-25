@@ -270,7 +270,11 @@ const ExampleTwo = ({ title = "Advanced Table Two", rider = "" }) => {
                   {page.map((row) => {
                     prepareRow(row);
                     return (
-                      <tr {...row.getRowProps()}>
+                      <tr
+                        {...row.getRowProps()}
+                        onClick={() => navigate(`/orders/${row?.original?.id}`)}
+                        className="cursor-pointer hover:bg-slate-50/80"
+                      >
                         {row.cells.map((cell) => {
                           return (
                             <td {...cell.getCellProps()} className="table-td">
