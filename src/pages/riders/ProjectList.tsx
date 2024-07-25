@@ -8,6 +8,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 // import { Menu } from "@headlessui/react";
 // import { useNavigate } from "react-router-dom";
 // import { useTable, useRowSelect, useSortBy, useGlobalFilter, usePagination, Column } from "react-table";
+import { Link, useNavigate } from "react-router-dom";
 import {
   useReactTable,
   getCoreRowModel,
@@ -16,7 +17,6 @@ import {
   ColumnDef,
   flexRender,
 } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
 
 const columns: ColumnDef<Rider>[] = [
   {
@@ -83,7 +83,7 @@ const columns: ColumnDef<Rider>[] = [
 ];
 
 const ProjectList = ({ riders }: { riders: Rider[] }) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const tableInstance = useReactTable({
     columns,
     data: riders,
@@ -128,7 +128,11 @@ const ProjectList = ({ riders }: { riders: Rider[] }) => {
                 </thead>
                 <tbody className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
                   {tableInstance.getRowModel().rows.map((row) => (
-                    <tr key={row.id}>
+                    <tr
+                      key={row.id}
+                      onClick={() => navigate(`./${row.original.id}`)}
+                      className="cursor-pointer hover:bg-slate-50/80"
+                    >
                       {row.getVisibleCells().map((cell) => (
                         <td className="table-td" key={cell.id}>
                           {flexRender(
