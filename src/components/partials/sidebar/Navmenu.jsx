@@ -32,7 +32,10 @@ const Navmenu = ({ menus }) => {
   };
 
   const isLocationMatch = (targetLocation) => {
-    return locationName === targetLocation || locationName.startsWith(`${targetLocation}/`);
+    return (
+      locationName === targetLocation ||
+      locationName.startsWith(`${targetLocation}/`)
+    );
   };
 
   useEffect(() => {
@@ -78,7 +81,8 @@ const Navmenu = ({ menus }) => {
             className={` single-sidebar-menu 
               ${item.child ? "item-has-children" : ""}
               ${activeSubmenu === i ? "open" : ""}
-              ${locationName === item.link ? "menu-item-active" : ""}`}>
+              ${locationName.startsWith(item.link) ? "menu-item-active" : ""}`}
+          >
             {/* single menu with no childred*/}
             {!item.child && !item.isHeadr && (
               <NavLink className="menu-link" to={item.link}>
@@ -90,12 +94,19 @@ const Navmenu = ({ menus }) => {
               </NavLink>
             )}
             {/* only for menulabel */}
-            {item.isHeadr && !item.child && <div className="menulabel">{item.title}</div>}
+            {item.isHeadr && !item.child && (
+              <div className="menulabel">{item.title}</div>
+            )}
             {/*    !!sub menu parent   */}
             {item.child && (
               <div
-                className={`menu-link ${activeSubmenu === i ? "parent_active not-collapsed" : "collapsed"}`}
-                onClick={() => toggleSubmenu(i)}>
+                className={`menu-link ${
+                  activeSubmenu === i
+                    ? "parent_active not-collapsed"
+                    : "collapsed"
+                }`}
+                onClick={() => toggleSubmenu(i)}
+              >
                 <div className="flex-1 flex items-start">
                   <span className="menu-icon">
                     <Icon icon={item.icon} />
@@ -106,7 +117,8 @@ const Navmenu = ({ menus }) => {
                   <div
                     className={`menu-arrow transform transition-all duration-300 ${
                       activeSubmenu === i ? " rotate-90" : ""
-                    }`}>
+                    }`}
+                  >
                     <Icon icon="heroicons-outline:chevron-right" />
                   </div>
                 </div>

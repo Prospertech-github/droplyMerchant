@@ -11,9 +11,13 @@ const Breadcrumbs = () => {
   const [groupTitle, setGroupTitle] = useState("");
 
   useEffect(() => {
-    const currentMenuItem = menuItems.find((item) => item.link === locationName);
+    const currentMenuItem = menuItems.find(
+      (item) => item.link === locationName
+    );
 
-    const currentChild = menuItems.find((item) => item.child?.find((child) => child.childlink === locationName));
+    const currentChild = menuItems.find((item) =>
+      item.child?.find((child) => child.childlink === locationName)
+    );
 
     if (currentMenuItem) {
       setIsHide(currentMenuItem.isHide);
@@ -22,6 +26,8 @@ const Breadcrumbs = () => {
       setGroupTitle(currentChild?.title);
     }
   }, [location, locationName]);
+
+  console.log(locationName);
 
   if (locationName === "dashboard") {
     return null;
@@ -50,7 +56,35 @@ const Breadcrumbs = () => {
                 </span>
               </li>
             )}
-            <li className="capitalize text-slate-500 dark:text-slate-400">{locationName}</li>
+            {locationName &&
+              locationName.split("/").map(function (str, index) {
+                console.log(this);
+
+                if (locationName.split("/").length === index + 1) {
+                  return (
+                    <li
+                      key={index}
+                      className="capitalize text-slate-500 dark:text-slate-400"
+                    >
+                      {str}
+                    </li>
+                  );
+                }
+
+                return (
+                  <li key={index}>
+                    <NavLink
+                      to={`/${str}`}
+                      className="capitalize text-primary-500"
+                    >
+                      {str}
+                    </NavLink>
+                    <span className="breadcrumbs-icon rtl:transform rtl:rotate-180">
+                      <Icon icon="heroicons:chevron-right" />
+                    </span>
+                  </li>
+                );
+              }, this)}
           </ul>
         </div>
       ) : null}

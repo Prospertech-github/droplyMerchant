@@ -87,6 +87,7 @@ export default function FormInput(props: FormInputProps) {
                   } form-control py-2 ${className}`}
                   id={id}
                   {...field}
+                  value={field.value || ""}
                 />
               }
 
