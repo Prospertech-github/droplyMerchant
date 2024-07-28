@@ -18,10 +18,12 @@ export default function CompanyInfo() {
     <Formik
       initialValues={{
         name: user.org_.name,
-        logo: user.org_.logo,
+        logo_name: user.org_.logo,
         description: user.org_.description,
         address: user.org_.address,
+        id: user.org_.id,
       }}
+      enableReinitialize
       onSubmit={async (values) => {
         await updateOrg(values);
         toast.success("Organization updated successfully");

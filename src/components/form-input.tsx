@@ -357,9 +357,11 @@ export function FormFileField(
                 className={`w-full h-[40px] file-control flex items-center ${className}`}
               >
                 <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
-                  {field.value ? (
+                  {nameField.value || field.value ? (
                     <span className="text-slate-900 dark:text-white">
-                      {nameField.value || "File Selected"}
+                      {field.value && nameField.value
+                        ? nameField.value
+                        : "File Selected"}
                     </span>
                   ) : (
                     <span className="text-slate-400">{placeholder}</span>
@@ -375,10 +377,10 @@ export function FormFileField(
                   {description}
                 </p>
               ) : null}
-              {preview && field.value && base64StrField && (
+              {preview && (field.value || base64StrField || nameField) && (
                 <div className="w-[150px] h-[150px] mx-auto mt-6  ">
                   <img
-                    src={base64StrField.value}
+                    src={base64StrField.value || nameField.value}
                     className="w-full  h-full block rounded object-contain border p-2  border-slate-200"
                     alt={nameField.value || "File Selected"}
                   />
