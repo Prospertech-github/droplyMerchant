@@ -106,15 +106,18 @@ export default function WalletPage() {
                   }
                 />{" "}
                 <span className="text-sm">
-                  {Math.abs(
-                    (walletDashboard.data.credits.this_month_credit -
-                      walletDashboard.data.credits.last_month_credit) /
-                      walletDashboard.data.credits.last_month_credit
-                  ).toLocaleString(undefined, {
-                    style: "percent",
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}{" "}
+                  {!!walletDashboard.data.credits.this_month_credit &&
+                  !!walletDashboard.data.credits.last_month_credit
+                    ? Math.abs(
+                        (walletDashboard.data.credits.this_month_credit -
+                          walletDashboard.data.credits.last_month_credit) /
+                          walletDashboard.data.credits.last_month_credit
+                      ).toLocaleString(undefined, {
+                        style: "percent",
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
+                    : "0%"}{" "}
                   from last month
                 </span>
               </span>
@@ -171,18 +174,22 @@ export default function WalletPage() {
                   }
                 />{" "}
                 <span className="text-sm">
-                  {Math.abs(
-                    walletDashboard.data.withdrawals.this_month_withdrawal -
-                      walletDashboard.data.withdrawals.last_month_withdrawal ||
-                      1 /
-                        walletDashboard.data.withdrawals
-                          .last_month_withdrawal ||
-                      1
-                  ).toLocaleString(undefined, {
-                    style: "percent",
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}{" "}
+                  {!!walletDashboard.data.withdrawals.this_month_withdrawal &&
+                  !!walletDashboard.data.withdrawals.last_month_withdrawal
+                    ? Math.abs(
+                        walletDashboard.data.withdrawals.this_month_withdrawal -
+                          walletDashboard.data.withdrawals
+                            .last_month_withdrawal ||
+                          1 /
+                            walletDashboard.data.withdrawals
+                              .last_month_withdrawal ||
+                          1
+                      ).toLocaleString(undefined, {
+                        style: "percent",
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
+                    : "0%"}{" "}
                   from last month
                 </span>
               </span>
