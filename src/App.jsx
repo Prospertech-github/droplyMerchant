@@ -91,7 +91,7 @@ const router = createBrowserRouter(
           <Route path="orders" element={<Orders />} />
           <Route path="orders/:id" element={<OrderDetails />} />
           <Route path="wallet" element={<Wallet />} />
-          <Route path="loans" element={<Loans />} />
+          {/* <Route path="loans" element={<Loans />} /> */}
           <Route element={<SettingsLayout />}>
             <Route path="profile" element={<Profile />} />
             <Route path="bank" element={<Bank />} />
