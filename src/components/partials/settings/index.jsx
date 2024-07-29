@@ -81,7 +81,7 @@ const Setings = () => {
             </div>
             <hr className="-mx-6 border-slate-200 dark:border-slate-700" />
             <ContentWidth />
-            {width >= breakpoints.xl && <Menulayout />}
+            {width >= breakpoints.lg && <Menulayout />}
 
             <div className="pt-4">
               <MenuClose />

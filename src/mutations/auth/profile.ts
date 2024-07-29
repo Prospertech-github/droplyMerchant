@@ -1,5 +1,7 @@
-import { axios } from "@/utils/api";
+import { isAxiosError } from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { axios } from "@/utils/api";
 
 async function editProfile(data: Record<string, any>) {
   const { data: response } = await axios.patch("auth/users/me/", data);
@@ -76,6 +78,23 @@ export function useUpdateOrg() {
   return useMutation(updateOrg, {
     onSuccess() {
       queryClient.invalidateQueries(["auth/users/me/"]);
+    },
+    onError(error) {
+      if (isAxiosError(error)) {
+        if (
+          error.response?.data?.message ||
+          error.response?.data?.error ||
+          error.response?.data?.detail
+        ) {
+          toast.error(
+            error.response?.data?.message ||
+              error.response?.data?.error ||
+              error.response?.data?.detail
+          );
+        } else {
+          toast.error("Something went wrong, try again");
+        }
+      }
     },
   });
 }

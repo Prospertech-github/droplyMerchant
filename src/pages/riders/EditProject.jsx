@@ -5,15 +5,20 @@ import Icon from "@/components/ui/Icon";
 import { string, object } from "yup";
 import { Formik } from "formik";
 import Button from "@/components/ui/Button";
-import FormInput, { FormPhoneInput, FormTextArea, FormSelect } from "@/components/form-input";
+import FormInput, {
+  FormPhoneInput,
+  FormTextArea,
+  FormSelect,
+} from "@/components/form-input";
 import { Tab } from "@headlessui/react";
 import classNames from "classnames";
 import { useLocation } from "react-router-dom";
 import nigerianStates from "@/data/countries/states";
 import countries from "@/data/countries";
 import { useTBERidersModalStore } from "@/data/riders/modal";
-import { useEditRider } from "@/mutations/riders/iedit-rider";
+import { useEditRider } from "@/mutations/riders/edit-rider";
 import { diff } from "deep-object-diff";
+import lgaData from "@/utils/data/lga.json";
 
 const validationSchema = object({
   user: object({
@@ -27,7 +32,7 @@ const validationSchema = object({
 const EditProject = () => {
   const { isOpen, close, rider } = useTBERidersModalStore();
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const editRider = useEditRider();
+  const { mutateAsync: editRider, error, isLoading } = useEditRider();
 
   return (
     <Modal
@@ -38,7 +43,8 @@ const EditProject = () => {
       onClose={() => {
         setSelectedIndex(0);
         close();
-      }}>
+      }}
+    >
       <Formik
         initialValues={rider}
         validationSchema={validationSchema}
@@ -63,41 +69,54 @@ const EditProject = () => {
               });
           }
           setSelectedIndex((prev) => prev + 1);
-        }}>
+        }}
+      >
         {({ handleSubmit, values }) => (
           <form onSubmit={handleSubmit} className="space-y-2">
-            <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+            <Tab.Group
+              selectedIndex={selectedIndex}
+              onChange={setSelectedIndex}
+            >
               <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
                 <Tab
                   className={({ selected }) =>
                     classNames(
                       "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
                       "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                      selected ? "bg-white shadow" : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                      selected
+                        ? "bg-white shadow"
+                        : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
                     )
-                  }>
+                  }
+                >
                   Account
                 </Tab>
                 <Tab
-                  disabled={editRider.isLoading}
+                  disabled={isLoading}
                   className={({ selected }) =>
                     classNames(
                       "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
                       "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                      selected ? "bg-white shadow" : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                      selected
+                        ? "bg-white shadow"
+                        : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
                     )
-                  }>
+                  }
+                >
                   Profile
                 </Tab>
                 <Tab
-                  disabled={editRider.isLoading}
+                  disabled={isLoading}
                   className={({ selected }) =>
                     classNames(
                       "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
                       "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                      selected ? "bg-white shadow" : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                      selected
+                        ? "bg-white shadow"
+                        : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
                     )
-                  }>
+                  }
+                >
                   Guarantor
                 </Tab>
               </Tab.List>
@@ -108,27 +127,27 @@ const EditProject = () => {
                     name="user.first_name"
                     label="First Name"
                     required
-                    error={editRider.error?.response?.data?.user?.first_name}
+                    error={error?.response?.data?.user?.first_name}
                   />
                   <FormInput
                     name="user.last_name"
                     label="Last Name"
                     required
-                    error={editRider.error?.response?.data?.user?.last_name}
+                    error={error?.response?.data?.user?.last_name}
                   />
-                  <FormInput
+                  {/* <FormInput
                     name="nationality"
                     label="Nationality"
                     required
                     description="Where is the rider from?"
-                    error={editRider.error?.response?.data?.nationality}
-                  />
+                    error={error?.response?.data?.nationality}
+                  /> */}
                   <FormPhoneInput
                     name="user.phone"
                     label="Phone"
                     required
                     readOnly
-                    error={editRider.error?.response?.data?.user?.phone}
+                    error={error?.response?.data?.user?.phone}
                   />
                   <FormInput
                     name="user.email"
@@ -136,7 +155,7 @@ const EditProject = () => {
                     required
                     readOnly
                     autoComplete="off"
-                    error={editRider.error?.response?.data?.user?.email}
+                    error={error?.response?.data?.user?.email}
                   />
                 </Tab.Panel>
                 <Tab.Panel className="space-y-4">
@@ -145,24 +164,42 @@ const EditProject = () => {
                     label="Address"
                     rows={2}
                     required
-                    error={editRider.error?.response?.data?.address}
+                    error={error?.response?.data?.address}
                   />
-                  <FormInput name="city" label="City" required error={editRider.error?.response?.data?.city} />
                   <FormSelect
-                    options={nigerianStates.map((state) => ({ label: state, value: state }))}
+                    options={
+                      lgaData?.map((lga) => ({
+                        label: lga,
+                        value: lga,
+                      })) || []
+                    }
+                    placeholder="Select Local Government Area"
+                    name="rider_profile.lga"
+                    label="Local Government Area"
+                    required
+                    error={error?.response?.data?.rider_profile?.state}
+                  />
+                  <FormSelect
+                    options={nigerianStates.map((state) => ({
+                      label: state,
+                      value: state,
+                    }))}
                     placeholder="Select state"
                     name="state"
                     label="State"
                     required
-                    error={editRider.error?.response?.data?.state}
+                    error={error?.response?.data?.state}
                   />
                   <FormSelect
-                    options={countries.map((country) => ({ label: country, value: country }))}
+                    options={countries.map((country) => ({
+                      label: country,
+                      value: country,
+                    }))}
                     placeholder="Select country"
                     name="country"
                     label="Country"
                     required
-                    error={editRider.error?.response?.data?.country}
+                    error={error?.response?.data?.country}
                   />
                   <FormInput
                     name="nin"
@@ -170,29 +207,35 @@ const EditProject = () => {
                     required
                     pattern="[0-9]{11}"
                     title="NIN must be 11 digits"
-                    error={editRider.error?.response?.data?.nin}
+                    error={error?.response?.data?.nin}
                   />
                   <FormSelect
                     required
                     name="commission_type"
                     label="Rider contract"
                     placeholder="Select contract type"
-                    error={editRider.error?.response?.data?.commission_type}
+                    error={error?.response?.data?.commission_type}
                     description={
                       <>
-                        <span>Select the type of contract you want to offer this rider. </span>
+                        <span>
+                          Select the type of contract you want to offer this
+                          rider.{" "}
+                        </span>
                         <br />
                         <ul>
                           <li>
-                            <strong>Salary</strong> - The rider will be paid a fixed amount monthly
+                            <strong>Salary</strong> - The rider will be paid a
+                            fixed amount monthly
                           </li>
                           <li>
-                            <strong>Use global commission</strong> - The rider will be paid the general percentage of
-                            the delivery fee
+                            <strong>Use global commission</strong> - The rider
+                            will be paid the general percentage of the delivery
+                            fee
                           </li>
                           <li>
-                            <strong>Use individual commission</strong> - The rider will be paid a custom percentage of
-                            the delivery fee
+                            <strong>Use individual commission</strong> - The
+                            rider will be paid a custom percentage of the
+                            delivery fee
                           </li>
                         </ul>
                       </>
@@ -215,7 +258,13 @@ const EditProject = () => {
                   {
                     // @ts-ignore
                     values.commission_type === "individual" && (
-                      <FormInput name="commission" label="Commission in %" type="number" step={0.01} required />
+                      <FormInput
+                        name="commission"
+                        label="Commission in %"
+                        type="number"
+                        step={0.01}
+                        required
+                      />
                     )
                   }
                 </Tab.Panel>
@@ -223,17 +272,17 @@ const EditProject = () => {
                   <FormInput
                     name="guarantor_name"
                     label="Name"
-                    error={editRider.error?.response?.data?.guarantor_name}
+                    error={error?.response?.data?.guarantor_name}
                   />
                   <FormPhoneInput
                     name="guarantor_phone"
                     label="Phone"
-                    error={editRider.error?.response?.data?.guarantor_phone}
+                    error={error?.response?.data?.guarantor_phone}
                   />
                   <FormInput
                     name="guarantor_email"
                     label="Email Address"
-                    error={editRider.error?.response?.data?.guarantor_email}
+                    error={error?.response?.data?.guarantor_email}
                   />
                 </Tab.Panel>
               </Tab.Panels>
@@ -241,8 +290,8 @@ const EditProject = () => {
             <div className="flex justify-end">
               {/* @ts-ignore */}
               <Button
-                disabled={editRider.isLoading}
-                isLoading={editRider.isLoading}
+                disabled={isLoading}
+                isLoading={isLoading}
                 loadingText="Editing Rider..."
                 type="submit"
                 text={selectedIndex === 2 ? "Edit Rider" : "Next"}

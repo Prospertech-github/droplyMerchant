@@ -13,7 +13,7 @@ const validationSchema = object({
 }).required();
 
 export default function Finances() {
-  const updateOrg = useUpdateOrg();
+  const { mutateAsync: updateOrg, error, isLoading } = useUpdateOrg();
   const {
     data: { org_ },
   } = useLoggedInUser();
@@ -28,24 +28,8 @@ export default function Finances() {
       }}
       validationSchema={validationSchema}
       onSubmit={async (values) => {
-        try {
-          await updateOrg.mutateAsync(values);
-          toast.success("Organization updated successfully");
-        } catch (error: any) {
-          if (
-            error.response?.data?.message ||
-            error.response?.data?.error ||
-            error.response?.data?.detail
-          ) {
-            toast.error(
-              error.response?.data?.message ||
-                error.response?.data?.error ||
-                error.response?.data?.detail
-            );
-          } else {
-            toast.error("Something went wrong, try again");
-          }
-        }
+        await updateOrg(values);
+        toast.success("Organization updated successfully");
       }}
     >
       {({ handleSubmit, dirty }) => (
@@ -54,29 +38,29 @@ export default function Finances() {
             prefix="₦"
             name="price_per_km"
             label="Price for first km"
-            error={updateOrg.error?.response?.data?.price_per_km}
+            error={error?.response?.data?.price_per_km}
             description="This is the price for the first km of a trip"
           />
           <FormattedNumberInput
             prefix="₦"
             name="additional_km"
             label="Price for additional km"
-            error={updateOrg.error?.response?.data?.additional_km}
+            error={error?.response?.data?.additional_km}
             description="This is the price for the subsequent km of a trip"
           />
           <FormInput
             type="number"
             name="commission"
             label="Commission in %"
-            error={updateOrg.error?.response?.data?.commission}
+            error={error?.response?.data?.commission}
             description="This is the percentage that will be taken per order from every rider you register"
           />
           <div className="flex justify-end">
             {/* @ts-ignore */}
             <Button
-              isLoading={updateOrg.isLoading}
+              isLoading={isLoading}
               loadingText="Updating..."
-              disabled={!dirty || updateOrg.isLoading}
+              disabled={!dirty || isLoading}
               type="submit"
               className="btn btn-dark"
             >

@@ -1,7 +1,23 @@
+import { Fragment, ReactNode } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Icon from "@/components/ui/Icon";
+
+type Props = {
+  label?: ReactNode;
+  wrapperClass?: string;
+  labelClass?: string;
+  children: ReactNode;
+  classMenuItems?: string;
+  items?: {
+    label: string;
+    link?: string;
+    hasDivider?: boolean;
+    icon?: string;
+  }[];
+  classItem?: string;
+  className?: string;
+};
 
 const Dropdown = ({
   label = "Dropdown",
@@ -25,7 +41,7 @@ const Dropdown = ({
   ],
   classItem = "px-4 py-2",
   className = "",
-}) => {
+}: Props) => {
   return (
     <div className={`relative ${wrapperClass}`}>
       <Menu as="div" className={`block w-full ${className}`}>

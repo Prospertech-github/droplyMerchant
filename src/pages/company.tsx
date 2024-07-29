@@ -1,21 +1,35 @@
+import { Formik } from "formik";
+import { toast } from "react-toastify";
 import FormInput, {
   FormFileField,
   FormTextArea,
 } from "@/components/form-input";
 import { useLoggedInUser } from "@/data/auth";
-import { Formik } from "formik";
+import { useUpdateOrg } from "@/mutations/auth/profile";
+import Button from "@/components/ui/Button";
 
 export default function CompanyInfo() {
-  const user = useLoggedInUser();
-  if (!user.data?.org_) return <div>Loading...</div>;
+  const { data: user } = useLoggedInUser();
+  const { mutateAsync: updateOrg } = useUpdateOrg();
+
+  if (!user?.org_) return <div>Loading...</div>;
+
   return (
     <Formik
-      initialValues={user.data.org_}
-      onSubmit={(values) => {
-        console.log(values);
+      initialValues={{
+        name: user.org_.name,
+        logo_name: user.org_.logo,
+        description: user.org_.description,
+        address: user.org_.address,
+        id: user.org_.id,
+      }}
+      enableReinitialize
+      onSubmit={async (values) => {
+        await updateOrg(values);
+        toast.success("Organization updated successfully");
       }}
     >
-      {({ handleSubmit }) => (
+      {({ handleSubmit, isSubmitting }) => (
         <form onSubmit={handleSubmit} className="space-y-4">
           <FormInput name="name" label="Company Name" required />
           <FormFileField name="logo" label="Company Logo" preview />
@@ -26,9 +40,15 @@ export default function CompanyInfo() {
           />
           <FormInput name="address" label="Company Address" required />
           <div className="flex justify-end">
-            <button type="submit" className="btn btn-dark">
+            {/* @ts-ignore */}
+            <Button
+              type="submit"
+              isLoading={isSubmitting}
+              loadingText="Updating..."
+              className="btn btn-dark"
+            >
               Update
-            </button>
+            </Button>
           </div>
         </form>
       )}

@@ -24,11 +24,11 @@ export const menuItems = [
     link: "wallet",
     icon: "tdesign:money",
   },
-  {
-    title: "Loans",
-    link: "loans",
-    icon: "icon-park-outline:funds",
-  },
+  // {
+  //   title: "Loans",
+  //   link: "loans",
+  //   icon: "icon-park-outline:funds",
+  // },
   {
     title: "Settings",
     icon: "tabler:settings",

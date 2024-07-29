@@ -1,6 +1,8 @@
-import React from "react";
-import { Icon } from "@iconify/react";
-const Icons = ({ icon, className, width, rotate, hFlip, vFlip }) => {
+import { Icon, IconProps } from "@iconify/react";
+
+type Props = IconProps;
+
+const Icons = ({ icon, className, width, rotate, hFlip, vFlip }: Props) => {
   return (
     <>
       <Icon

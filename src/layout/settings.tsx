@@ -33,7 +33,7 @@ export default function SettingsLayout() {
       <div className="grid gap-5 grid-cols-12">
         <div className="xl:col-span-3 lg:col-span-4 col-span-12 card-auto-height">
           {/* @ts-ignore */}
-          <Card>
+          <Card bodyClass="p-4">
             <ul className="flex flex-col space-y-1 text-start items-stretch">
               {menus.map((item, i) => (
                 <li key={i}>

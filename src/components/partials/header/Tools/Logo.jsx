@@ -14,7 +14,7 @@ const Logo = () => {
   return (
     <div>
       <Link to="/dashboard">
-        {width >= breakpoints.xl ? (
+        {width >= breakpoints.lg ? (
           <img src={isDark ? LogoWhite : MainLogo} alt="" />
         ) : (
           <img src={isDark ? MobileLogoWhite : MobileLogo} alt="" />

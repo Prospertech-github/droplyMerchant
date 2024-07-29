@@ -223,10 +223,11 @@ const GroupChart3 = () => {
           Average rating
         </span>
         <span className="block mb- text-2xl text-slate-900 dark:text-white font-medium mb-6">
-          {data.rating.toLocaleString(undefined, {
+          {/* {data.rating.toLocaleString(undefined, {
             minimumFractionDigits: 1,
             maximumFractionDigits: 1,
-          })}
+          })} */}
+          0
         </span>
       </div>
     </>
