@@ -13,13 +13,13 @@ import ReactQueryProvider from "./providers/react-query.tsx";
 
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN_KEY,
-  enabled: !import.meta.env.DEV,
+  enabled: import.meta.env.PROD,
   integrations: [
     Sentry.browserTracingIntegration(),
     Sentry.replayIntegration(),
   ],
   tracesSampleRate: 1.0,
-  tracePropagationTargets: ["localhost", import.meta.env.VITE_API_BASE_URL],
+  tracePropagationTargets: ["localhost"],
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
 });
