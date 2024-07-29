@@ -16,7 +16,7 @@ import { useLocation } from "react-router-dom";
 import nigerianStates from "@/data/countries/states";
 import countries from "@/data/countries";
 import { useTBERidersModalStore } from "@/data/riders/modal";
-import { useEditRider } from "@/mutations/riders/iedit-rider";
+import { useEditRider } from "@/mutations/riders/edit-rider";
 import { diff } from "deep-object-diff";
 import lgaData from "@/utils/data/lga.json";
 
