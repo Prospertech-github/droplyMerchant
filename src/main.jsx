@@ -29,7 +29,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <ReactQueryProvider>
         <App />
-        <ToastContainer />
+        <ToastContainer style={{ zIndex: 99999999 }} />
       </ReactQueryProvider>
     </Provider>
   </>

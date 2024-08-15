@@ -176,7 +176,11 @@ export default function AddProject() {
                       accept="image/png, image/jpg, image/jpeg"
                       required
                       error={error?.response?.data?.image}
-                      description="Upload a clear image of the rider in JPG or PNG format"
+                      fileLimit={{
+                        message: "The file exceeds the limit of 5 MB",
+                        size: 5242880,
+                      }}
+                      description="Upload a clear image of the rider in JPG, JPEG, or PNG format, and the file size must not exceed 5 MB"
                     />
                     {/* <FormInput
                       name="rider_profile.nationality"
@@ -265,7 +269,7 @@ export default function AddProject() {
                       accept="image/png, image/jpg, image/jpeg"
                       required
                       preview
-                      description="Upload a clear image of the rider's driver's license, voter's card, NIN, passport etc. in JPG or PNG format"
+                      description="Upload a clear image of the rider's driver's license, voter's card, NIN, passport etc. in JPG or PNG format and the file size must not exceed 5 MB"
                       error={
                         error?.response?.data?.rider_profile?.identification
                       }
