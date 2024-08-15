@@ -164,6 +164,60 @@ const RiderDetailsPage = () => {
             </div>
           </div>
         </Card>
+        <Card title="Profile Details" className="xl:col-span-6 col-span-12">
+          <div className="flex flex-col gap-2 [&>div]:flex [&>div]:justify-between [&>div]:items-center [&_h5]:text-lg [&_h5]:font-semibold [&_p]:text-base">
+            <div>
+              <h5>Address</h5>
+              <p>{rider.address}</p>
+            </div>
+            <div>
+              <h5>Local Government Area</h5>
+              <p>{rider.company.lga}</p>
+            </div>
+            <div>
+              <h5>State</h5>
+              <p>{rider.state}</p>
+            </div>
+            <div>
+              <h5>Nationality</h5>
+              <p>{rider.nationality}</p>
+            </div>
+            <div>
+              <h5>NIN</h5>
+              <p>{rider.nin}</p>
+            </div>
+            {/* <div>
+              <h5>Means of Identification</h5>
+              <p>{rider.nationality}</p>
+            </div> */}
+            <div>
+              <h5>Rider contract</h5>
+              <p className="capitalize">{rider.commission_type}</p>
+            </div>
+            {rider.commission_type === "individual" && (
+              <div>
+                <h5>Rider contract</h5>
+                <p>{rider.commission_type}</p>
+              </div>
+            )}
+          </div>
+        </Card>
+        <Card title="Guarantor Details" className="xl:col-span-6 col-span-12">
+          <div className="flex flex-col gap-2 [&>div]:flex [&>div]:justify-between [&>div]:items-center [&_h5]:text-lg [&_h5]:font-semibold [&_p]:text-base">
+            <div>
+              <h5>Name</h5>
+              <p>{rider.guarantor_name}</p>
+            </div>
+            <div>
+              <h5>Phone</h5>
+              <p>{rider.guarantor_phone}</p>
+            </div>
+            <div>
+              <h5>Email Address</h5>
+              <p>{rider.guarantor_email}</p>
+            </div>
+          </div>
+        </Card>
         <BasicArea />
         <Card title="Last seen" className="xl:col-span-6 col-span-12">
           <TrackingParcel />
