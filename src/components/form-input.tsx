@@ -306,6 +306,10 @@ export function FormPhoneInput(props: FormInputProps) {
 export function FormFileField(
   props: FormInputProps & {
     preview?: boolean;
+    fileLimit?: {
+      size: number;
+      message: string;
+    };
   }
 ) {
   const {
@@ -317,6 +321,7 @@ export function FormFileField(
     className,
     error,
     description,
+    // fileLimit,
   } = props;
 
   const [nameField] = useField(`${props.name}_name`);
@@ -335,6 +340,15 @@ export function FormFileField(
                   const file = e.currentTarget.files?.[0];
 
                   if (!file) return;
+
+                  //! Figure out why your file size logic doesn't work
+
+                  // if (fileLimit && file.size > fileLimit.size) {
+                  //   form.setFieldError(field.name, fileLimit.message);
+
+                  //   return;
+                  // }
+
                   const reader = new FileReader();
                   reader.readAsDataURL(file);
                   reader.onload = () => {
