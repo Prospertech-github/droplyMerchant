@@ -82,26 +82,26 @@ const router = createBrowserRouter(
         <Route path="/register" element={<Register />} />
         <Route path="/verify" element={<VerifyPage />} />
       </Route>
-      <Route loader={loader} path="/*">
-        <Route path="complete-signup" element={<CompleteSignUp />} />
+      <Route loader={loader}>
+        <Route path="/complete-signup" element={<CompleteSignUp />} />
         <Route element={<Layout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="riders" element={<Riders />} />
-          <Route path="riders/:id" element={<RiderDetails />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="orders/:id" element={<OrderDetails />} />
-          <Route path="wallet" element={<Wallet />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/riders" element={<Riders />} />
+          <Route path="/riders/:id" element={<RiderDetails />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/orders/:id" element={<OrderDetails />} />
+          <Route path="/wallet" element={<Wallet />} />
           {/* <Route path="loans" element={<Loans />} /> */}
           <Route element={<SettingsLayout />}>
-            <Route path="profile" element={<Profile />} />
-            <Route path="bank" element={<Bank />} />
-            <Route path="finances" element={<Finances />} />
-            <Route path="company" element={<Company />} />
-            <Route path="security" element={<Security />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/bank" element={<Bank />} />
+            <Route path="/finances" element={<Finances />} />
+            <Route path="/company" element={<Company />} />
+            <Route path="/security" element={<Security />} />
           </Route>
-          <Route path="*" element={<NotFound />} />
         </Route>
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Route>
   )
 );
