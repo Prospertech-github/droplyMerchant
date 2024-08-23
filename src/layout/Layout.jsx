@@ -39,7 +39,11 @@ const Layout = () => {
     return <Loading />;
   }
 
-  if (!data?.org_) {
+  if (!data) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (data && !data.org_) {
     return <Navigate to="/complete-signup" replace />;
   }
 
