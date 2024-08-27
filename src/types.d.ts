@@ -88,3 +88,10 @@ type Loan = {
   status: "pending" | "approved" | "declined";
   created_at: string;
 };
+
+type PaginatedResponse<T> = {
+  count: number;
+  next: boolean | null;
+  previous: boolean | null;
+  results: T;
+};

@@ -6,5 +6,14 @@ export function useNotifications(searchParams: {
 }) {
   const params = new URLSearchParams({ ...searchParams });
 
-  return useQuery<Order[]>(["notifications", `?${params.toString()}`]);
+  return useQuery<
+    PaginatedResponse<
+      {
+        created_at: string;
+        id: string;
+        is_read: boolean;
+        message: string;
+      }[]
+    >
+  >(["notifications", `?${params.toString()}`]);
 }
