@@ -1,11 +1,13 @@
 import useLogin from "@/mutations/auth/login";
 import { object, string } from "yup";
-import { useLocation, useNavigate } from "react-router-dom";
-import Checkbox from "@/components/ui/Checkbox";
-import Button from "@/components/ui/Button";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
+// import Checkbox from "@/components/ui/Checkbox";
+import { toast } from "react-toastify";
 import { Formik } from "formik";
+import Button from "@/components/ui/Button";
 import FormInput from "@/components/form-input";
+import { getFirebaseToken } from "@/utils/firebase";
+import useUpdateFCMToken from "@/mutations/auth/fcm-token";
 
 const schema = object({
   email: string().email("Invalid email").required("Email is Required"),
@@ -19,13 +21,22 @@ const initialValues = {
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const login = useLogin();
   const { state } = useLocation();
-  const onSubmit = (data: Record<"email" | "password", string>) => {
-    login.mutateAsync(data).then(() => {
-      navigate(state?.from || "/dashboard", { replace: true });
-    });
-  };
+
+  const { mutateAsync: login, isLoading, error } = useLogin();
+  const { mutateAsync: updateFCMToken } = useUpdateFCMToken();
+
+  async function onSubmit(data: Record<"email" | "password", string>) {
+    await login(data);
+    const firebaseToken = await getFirebaseToken();
+    if (firebaseToken) {
+      await updateFCMToken({
+        fcm_token: firebaseToken,
+      });
+    }
+    toast.success("Login successful!");
+    navigate(state?.from || "/dashboard", { replace: true });
+  }
 
   return (
     <Formik
@@ -40,7 +51,7 @@ const LoginForm = () => {
             label="email"
             type="email"
             className="h-[48px]"
-            error={login.error?.response?.data?.email}
+            error={error?.response?.data?.email}
           />
           <FormInput
             // defaultValue=""
@@ -48,7 +59,7 @@ const LoginForm = () => {
             label="password"
             type="password"
             className="h-[48px]"
-            error={login.error?.response?.data?.password}
+            error={error?.response?.data?.password}
           />
           <div className="flex justify-end">
             <Link
@@ -62,8 +73,8 @@ const LoginForm = () => {
           {/* @ts-ignore */}
           <Button
             type="submit"
-            isLoading={login.isLoading}
-            disabled={login.isLoading}
+            isLoading={isLoading}
+            disabled={isLoading}
             text="Sign in"
             className="btn btn-dark block w-full text-center "
             loadingText="Signing in..."
