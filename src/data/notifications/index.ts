@@ -6,5 +6,5 @@ export function useNotifications(searchParams: {
 }) {
   const params = new URLSearchParams({ ...searchParams });
 
-  return useQuery<Order[]>(["notifications/", `?${params.toString()}`]);
+  return useQuery<Order[]>(["notifications", `?${params.toString()}`]);
 }

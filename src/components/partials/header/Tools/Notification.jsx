@@ -7,7 +7,7 @@ import { Menu } from "@headlessui/react";
 import { useNotifications } from "@/data/notifications";
 
 const Notification = () => {
-  const { data: notifications } = useNotifications();
+  const { data: notifications } = useNotifications({ limit: 10, offset: 0 });
 
   return (
     <Dropdown
