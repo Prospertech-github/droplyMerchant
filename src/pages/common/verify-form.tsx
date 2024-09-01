@@ -36,28 +36,47 @@ export default function VerifyForm() {
             toast.success("Email verified successfully");
             navigate("/login", { replace: true });
           } catch (error: any) {
-            if (error.response?.data?.message || error.response?.data?.error || error.response?.data?.detail) {
-              toast.error(error.response?.data?.message || error.response?.data?.error || error.response?.data?.detail);
+            if (
+              error.response?.data?.message ||
+              error.response?.data?.error ||
+              error.response?.data?.detail ||
+              (Array.isArray(error.response?.data) &&
+                typeof error.response?.data[0] === "string")
+            ) {
+              toast.error(
+                error.response?.data?.message ||
+                  error.response?.data?.error ||
+                  error.response?.data?.detail ||
+                  error.response?.data[0]
+              );
             } else {
               toast.error("Something went wrong, try again");
             }
           }
-        }}>
+        }}
+      >
         {({ handleSubmit }) => (
           <form className="space-y-5" onSubmit={handleSubmit}>
-            <FormInput name="otp" label="Verification code" error={verifyOTP.error?.response?.data?.otp} />
+            <FormInput
+              name="otp"
+              label="Verification code"
+              error={verifyOTP.error?.response?.data?.otp}
+            />
             <Button
               type="submit"
               className="btn btn-dark"
               isLoading={verifyOTP.isLoading}
               loadingText="Verifying..."
-              disabled={verifyOTP.isLoading}>
+              disabled={verifyOTP.isLoading}
+            >
               Verify
             </Button>
           </form>
         )}
       </Formik>
-      <div className="mt-2 text-sm text-slate-800 dark:text-slate-200">{email && <ResendOTP email={email} />}</div>
+      <div className="mt-2 text-sm text-slate-800 dark:text-slate-200">
+        {email && <ResendOTP email={email} />}
+      </div>
     </>
   );
 }
@@ -87,7 +106,8 @@ function ResendOTP({ email }: { email: string }) {
         } finally {
           reset();
         }
-      }}>
+      }}
+    >
       Resend OTP
     </Button>
   );
