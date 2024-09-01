@@ -85,6 +85,12 @@ export default function CompleteSignupForm() {
             label="Logo"
             error={error?.response?.data?.logo}
             preview
+            accept="image/png, image/jpg, image/jpeg"
+            fileLimit={{
+              message: "The file exceeds the limit of 5 MB",
+              size: 5242880,
+            }}
+            description="Upload a clear image of your logo in JPG, JPEG, or PNG format, and the file size must not exceed 5 MB"
           />
           <FormTextArea
             name="description"
@@ -96,6 +102,10 @@ export default function CompleteSignupForm() {
             label="CAC Document"
             accept="application/pdf"
             error={error?.response?.data?.cac_doc}
+            fileLimit={{
+              message: "The file exceeds the limit of 5 MB",
+              size: 5242880,
+            }}
           />
           <FormSelect
             options={
