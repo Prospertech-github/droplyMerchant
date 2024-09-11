@@ -89,9 +89,9 @@ type Loan = {
   created_at: string;
 };
 
-type PaginatedResponse<T> = {
+type Paginated<T> = {
   count: number;
   next: boolean | null;
   previous: boolean | null;
-  results: T;
+  results: T[];
 };
