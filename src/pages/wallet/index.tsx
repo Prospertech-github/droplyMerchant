@@ -366,7 +366,7 @@ const columns: ColumnDef<WHistory>[] = [
     accessorKey: "amount",
     cell(props) {
       return (
-        <span className={`text-sm font-medium text-end block`}>
+        <span className={`text-sm font-medium block`}>
           {new Intl.NumberFormat("en-NG", {
             style: "currency",
             currency: "NGN",
