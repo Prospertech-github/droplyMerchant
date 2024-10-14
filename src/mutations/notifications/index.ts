@@ -1,5 +1,7 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { isAxiosError } from "axios";
 import { axios } from "@/utils/api";
+import { toast } from "react-toastify";
 
 async function changeNotificationStatus({
   id,
@@ -47,14 +49,18 @@ export function useChangeNotificationStatus(searchParams: {
 
       return { previousNotifications };
     },
-    // onError: (error, updatedNotification, context) => {
-    //   const queryKey = ["notifications", `?${params.toString()}`];
-    //   queryClient.setQueryData(queryKey, context?.previousNotifications);
-    // },
-    // onSettled: () => {
-    //   queryClient.invalidateQueries([
-    //     ["notifications", `?${params.toString()}`],
-    //   ]);
-    // },
+    onError: (error, _, context) => {
+      const queryKey = ["notifications", `?${params.toString()}`];
+      queryClient.setQueryData(queryKey, context?.previousNotifications);
+
+      if (isAxiosError(error)) {
+        toast.error(error.response?.data || error.response?.data?.error);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries([
+        ["notifications", `?${params.toString()}`],
+      ]);
+    },
   });
 }
