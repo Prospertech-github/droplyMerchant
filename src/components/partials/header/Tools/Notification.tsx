@@ -49,16 +49,21 @@ const Notification = () => {
       {data?.results?.length ? (
         <div className="divide-y divide-slate-100 dark:divide-slate-800">
           {data.results.map((item, i) => (
-            <Menu.Item key={i} as={"button"} className={"w-full"}>
+            <Menu.Item
+              key={i}
+              as={"button"}
+              disabled={item.is_read}
+              onClick={async (e) => {
+                e.stopPropagation();
+                await changeNotificationStatus({
+                  id: item.id,
+                  is_read: true,
+                });
+              }}
+              className={"w-full"}
+            >
               {({ active }) => (
-                <button
-                  onClick={async (e) => {
-                    e.stopPropagation();
-                    await changeNotificationStatus({
-                      id: item.id,
-                      is_read: true,
-                    });
-                  }}
+                <div
                   className={`${
                     active
                       ? "bg-slate-100 dark:bg-slate-700 dark:bg-opacity-70 text-slate-800"
@@ -86,14 +91,14 @@ const Notification = () => {
                       </div>
                     </div>
                   </div>
-                </button>
+                </div>
               )}
             </Menu.Item>
           ))}
         </div>
       ) : (
         <div className="flex items-center justify-center h-[150px]">
-          <p>No new notification</p>
+          <p>No notifications</p>
         </div>
       )}
     </Dropdown>

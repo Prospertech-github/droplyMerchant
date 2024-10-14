@@ -1,11 +1,13 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { axios } from "@/utils/api";
 
-async function changeNotificationStatus(data: {
+async function changeNotificationStatus({
+  id,
+}: {
   id: string;
   is_read: boolean;
 }) {
-  const { data: response } = await axios.post(`notification/status`, data);
+  const { data: response } = await axios.post(`notifications/${id}/read/`);
 
   return response.data;
 }
