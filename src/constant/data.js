@@ -30,6 +30,11 @@ export const menuItems = [
   //   icon: "icon-park-outline:funds",
   // },
   {
+    title: "Notifications",
+    link: "notifications",
+    icon: "heroicons-outline:bell",
+  },
+  {
     title: "Settings",
     icon: "tabler:settings",
     child: [

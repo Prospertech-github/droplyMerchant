@@ -33,6 +33,7 @@ const Finances = lazy(() => import("./pages/finances"));
 const Security = lazy(() => import("./pages/security"));
 const Wallet = lazy(() => import("./pages/wallet"));
 const Loans = lazy(() => import("./pages/loans"));
+const Notifications = lazy(() => import("./pages/notifications"));
 
 async function loader() {
   try {
@@ -91,6 +92,7 @@ const router = createBrowserRouter(
           <Route path="/orders" element={<Orders />} />
           <Route path="/orders/:id" element={<OrderDetails />} />
           <Route path="/wallet" element={<Wallet />} />
+          <Route path="/notifications" element={<Notifications />} />
           {/* <Route path="loans" element={<Loans />} /> */}
           <Route element={<SettingsLayout />}>
             <Route path="/profile" element={<Profile />} />
