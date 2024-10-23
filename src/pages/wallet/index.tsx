@@ -9,7 +9,6 @@ import {
   useWalletHistory,
 } from "@/data/wallet";
 import { useUpdateOrg } from "@/mutations/auth/profile";
-import { useCreateWithdrawal } from "@/mutations/withdrawals";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { number, object } from "yup";
 import {
@@ -24,14 +23,15 @@ import clsx from "clsx";
 import { Formik } from "formik";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import WithdrawModal from "./withdraw-modal";
 // import { useNavigate } from "react-router-dom";
 
 export default function WalletPage() {
-  const walletBalance = useWalletBalance();
+  const { data: walletBalance, isLoading: isWalletBalanceLoading } =
+    useWalletBalance();
   const [isCommisionOpen, setIsCommisionOpen] = useState(false);
   const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
   const updateOrg = useUpdateOrg();
-  const createWithdrawal = useCreateWithdrawal();
   const user = useLoggedInUser();
   const walletDashboard = useWalletDashboard();
 
@@ -43,11 +43,11 @@ export default function WalletPage() {
           title="Wallet balance"
           noborder
           subtitle={
-            walletBalance.isLoading ? (
+            isWalletBalanceLoading ? (
               <p>Loading...</p>
             ) : (
               <p>
-                {(walletBalance.data?.balance || 0).toLocaleString(undefined, {
+                {(walletBalance?.balance || 0).toLocaleString(undefined, {
                   style: "currency",
                   currency: "NGN",
                   currencyDisplay: "narrowSymbol",
@@ -58,7 +58,7 @@ export default function WalletPage() {
         >
           <button
             onClick={() => {
-              if ((walletBalance.data?.balance || 0) < 2_000) {
+              if ((walletBalance?.balance || 0) < 2_000) {
                 toast.error(
                   "You can only withdraw when your balance is at least ₦2,000"
                 );
@@ -267,65 +267,12 @@ export default function WalletPage() {
           )}
         </Formik>
       </Modal>
-      <Modal
-        activeModal={isWithdrawOpen}
-        onClose={() => setIsWithdrawOpen(false)}
-        title="Withdraw"
-        centered
-      >
-        <Formik
-          initialValues={{
-            amount: 0,
-          }}
-          validationSchema={object({
-            amount: number()
-              .min(2000, "You can only withdraw a minimum of 2,000 Naira")
-              .max(
-                walletBalance.data?.balance || 0,
-                "You can not withdraw more than your wallet balance"
-              )
-              .required("Amount is required"),
-          }).required()}
-          onSubmit={(values) => {
-            createWithdrawal
-              .mutateAsync({
-                amount: values.amount,
-              })
-              .then(() => {
-                setIsWithdrawOpen(false);
-                toast.success("Withdrawal request sent successfully");
-              })
-              .catch(() => {
-                toast.error("An error occured");
-              });
-          }}
-        >
-          {({ handleSubmit }) => (
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              <FormInput
-                required
-                type="number"
-                name="amount"
-                label="Amount"
-                min={0.01}
-                step={0.01}
-                max={walletBalance.data?.balance}
-              />
-              <div className="flex justify-end">
-                <Button
-                  isLoading={createWithdrawal.isLoading}
-                  disabled={createWithdrawal.isLoading}
-                  loadingText="Sending..."
-                  type="submit"
-                  className="btn btn-dark btn-lg"
-                >
-                  Withdraw
-                </Button>
-              </div>
-            </form>
-          )}
-        </Formik>
-      </Modal>
+      {isWithdrawOpen && (
+        <WithdrawModal
+          onClose={() => setIsWithdrawOpen(false)}
+          balance={walletBalance?.balance}
+        />
+      )}
     </div>
   );
 }
