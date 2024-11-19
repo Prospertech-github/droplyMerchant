@@ -3,7 +3,7 @@ import Alert from "@/components/ui/Alert";
 import Button from "@/components/ui/Button";
 import { useLoggedInUser } from "@/data/auth";
 import { useBankDetails, useBanks } from "@/data/bank";
-import { useAddbankDetails } from "@/mutations/banks";
+import { useAddbankDetails, useUpdateBankDetails } from "@/mutations/banks";
 import { Formik } from "formik";
 
 export default function BankInfo() {
@@ -11,23 +11,48 @@ export default function BankInfo() {
   const banks = useBanks();
   const addBankDetails = useAddbankDetails();
   const user = useLoggedInUser();
+  const updateBankDetails = useUpdateBankDetails();
+
+  const hasExistingDetails = !!bankDetails.data?.data;
 
   if (banks.isLoading) return <div>Loading...</div>;
-  if (!banks.data?.data) return <p>There's an error loading the banks. Please try again later.</p>;
+  if (!banks.data?.data)
+    return <p>There's an error loading the banks. Please try again later.</p>;
+
+
   return (
     <>
-      {bankDetails.data && <Alert label="You can not update your bank details after you input." />}
       <Formik
         initialValues={{
-          account_number: bankDetails.data?.data?.account_number,
-          bank_code: bankDetails.data?.data?.bank_code,
+          account_number: bankDetails.data?.data?.account_number || "", // Prefill if available
+          bank_code: bankDetails.data?.data?.bank_code || "",
           user: user.data?.id,
         }}
         onSubmit={(values) => {
-          addBankDetails.mutate({
-            ...values,
-            bank_name: banks.data.data.find((bank) => bank.code === values.bank_code)?.name,
-          });
+          const bankName = banks.data.data.find((bank) => bank.code === values.bank_code)?.name;
+          const payload = { ...values, bank_name: bankName };
+
+          if (hasExistingDetails) {
+            // Update bank details if they already exist
+            updateBankDetails.mutate(payload, {
+              onSuccess: () => {
+                console.log("Bank details updated successfully!");
+              },
+              onError: (error) => {
+                console.error("Error updating bank details:", error);
+              },
+            });
+          } else {
+            // Add new bank details
+            addBankDetails.mutate(payload, {
+              onSuccess: () => {
+                console.log("Bank details added successfully!");
+              },
+              onError: (error) => {
+                console.error("Error adding bank details:", error);
+              },
+            });
+          }
         }}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -57,9 +82,12 @@ export default function BankInfo() {
               <Button
                 isLoading={addBankDetails.isLoading}
                 loadingText="Saving..."
-                disabled={!!bankDetails.data || addBankDetails.isLoading}
+                // disabled={!!bankDetails.data || addBankDetails.isLoading}
+                // disabled={!!bankDetails.data || addBankDetails.isLoading}
+                disabled={!bankDetails.data && !addBankDetails.isLoading}
                 type="submit"
-                className="btn btn-dark">
+                className="btn btn-dark"
+              >
                 Update
               </Button>
             </div>
