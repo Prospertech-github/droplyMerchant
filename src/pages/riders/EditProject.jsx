@@ -57,8 +57,7 @@ const EditProject = () => {
             }
             diffData.user.id = rider.user.id;
 
-            return editRider
-              .mutateAsync(diffData)
+            return editRider(diffData)
               .then(() => {
                 resetForm();
                 setSelectedIndex(0);
